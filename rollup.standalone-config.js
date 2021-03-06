@@ -9,16 +9,17 @@ const options = {
 };
 
 export default {
-    input: `src/AlpineRay.ts`,
-    output: [
-        {
+    input: `src/index.ts`,
+    output: {
             file: `dist/standalone.js`,
             format: 'umd',
+            name: 'AlpineRay',
             sourcemap: options.sourceMapsEnabled,
-            exports: 'auto',
+            exports: 'named',
             plugins: [],
+            globals: { 'axios': 'axios' },
         },
-    ],
+    
     // moduleContext: { 'src/v3/Vue2RayMixin.ts': 'this' },
     plugins: [
         replace({
@@ -33,13 +34,6 @@ export default {
         typescript(),
     ],
     external: [
-        'axios',
-        'dayjs',
-        'stopwatch-node',
-        'md5',
-        '@permafrost-dev/pretty-format',
-        'stacktrace-js',
-        'xml-formatter',
-        'uuid',
+        'axios', 'node-ray',
     ],
 };

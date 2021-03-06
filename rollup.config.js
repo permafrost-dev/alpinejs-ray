@@ -9,7 +9,7 @@ const options = {
 };
 
 export default {
-    input: `src/AlpineRay.ts`,
+    input: `src/index.ts`,
     output: [
         {
             file: `dist/index.cjs.js`,
