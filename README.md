@@ -46,7 +46,7 @@ yarn add alpinejs-ray
 Although not the recommended way, you can import package normally:
 
 ```js 
-const AlpineRayPlugin = require('alpinejs-ray');
+import AlpineRayPlugin from 'alpinejs-ray';
 
 // the plugin must be initialized:
 AlpineRayPlugin.init();
@@ -63,8 +63,7 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
     };
 </script>
 
-<!-- load axios and node-ray here -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.js"></script>
+<!-- load axios, node-ray, and alpinejs-ray scripts here -->
 ```
 
 | Name | Type | Default | Description |
@@ -76,12 +75,6 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 Once the plugin is installed, you may access the `$ray()` method within your components.
 
 See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a full list of available methods.
-
-## AlpineJS-specific methods
-
-| Name | Description |
-| --- | --- |
-| `$ray().data()` | show the component data |
 
 ## Example Component
 
