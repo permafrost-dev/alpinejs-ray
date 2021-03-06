@@ -4,74 +4,91 @@ import { getWindow, checkForAlpine, checkForAxios, highlightHtmlMarkup, filterOb
 import { ray } from './AlpineRay';
 
 const AlpineRayMagicMethod = {
-    initOnDocumentReady() {
-        getWindow().document.addEventListener('readystatechange', () => {
-            if (getWindow().document.readyState === 'ready') {
-                getWindow().deferLoadingAlpine();
+    initOnDocumentReady(window: any = null) {
+        window = window ?? getWindow();
+
+        window.document.addEventListener('readystatechange', () => {
+            if (window.document.readyState === 'ready') {
+                window.deferLoadingAlpine();
             }
         });
     },
 
-    init() {
-        AlpineRayMagicMethod.initOnDocumentReady();
+    initDeferLoadingAlpine(window: any = null, rayInstance: any = null) {
+        window = window ?? getWindow();
+        rayInstance = rayInstance ?? ray;
 
-        const config = getWindow().alpineRayConfig || {};
-        const alpine = getWindow().deferLoadingAlpine || ((alpine: any) => alpine());
+        const config = window.alpineRayConfig || {};
+        const alpine = window.deferLoadingAlpine || ((alpine: any) => alpine());
 
-        getWindow().deferLoadingAlpine = function (callback: CallableFunction) {
-            getWindow().Alpine.onComponentInitialized(el => {
-                if (config.logComponentsInit ?? false) {
-                    ray().table(
-                        {
-                            'component event': 'component init',
-                            data: filterObjectKeys(el.$data, ['$el', '$watch', '$refs', '$nextTick']),
-                            HTML: `<code class="text-sm text-black">${highlightHtmlMarkup(el.$el.outerHTML)}</code>`,
-                        },
-                        'alpine.js'
-                    );
-                }
-
-                if (config.logCustomEvents ?? false) {
-                    const eventRegex = new RegExp(/(?:@|x-on:)([\w-_.]+)=/g);
-                    const html: string = el.$el.outerHTML;
-                    const matches = html.matchAll(eventRegex);
-                    const eventNames: string[] = [];
-
-                    for (const match of matches) {
-                        eventNames.push(match[1]);
-                    }
-
-                    eventNames.forEach(name => {
-                        const nameParts = name.split('.');
-                        const eventName: string = nameParts[0] ?? name; //name.split('.').shift() ?? name;
-                        const lastNamePart = nameParts[nameParts.length - 1];
-
-                        getWindow().addEventListener(eventName, e => {
-                            if (eventName.includes('-') || (nameParts.length === 2 && lastNamePart === 'window')) {
-                                ray().table({
-                                    event: name,
-                                    payload: e.detail ?? null,
-                                    targetTag: e.target.localName,
-                                    targetText: e.target.innerText,
-                                    sourceText: e.srcElement.innerText,
-                                });
-                            }
-                        });
-                    });
-                }
-            });
-
-            AlpineRayMagicMethod.start();
+        window.deferLoadingAlpine = function (callback: CallableFunction) {
+            AlpineRayMagicMethod.initOnComponentInitialized(config, window, rayInstance);
+            AlpineRayMagicMethod.start(window, rayInstance);
 
             alpine(callback);
         };
     },
 
-    start() {
-        checkForAxios();
-        checkForAlpine();
+    initOnComponentInitialized(config: Record<string, unknown>, window: any = null, rayInstance: any = null) {
+        window.Alpine.onComponentInitialized(el => {
+            if (config.logComponentsInit ?? false) {
+                rayInstance.table(
+                    {
+                        'component event': 'component init',
+                        data: filterObjectKeys(el.$data, ['$el', '$watch', '$refs', '$nextTick']),
+                        HTML: `<code class="text-sm text-black">${highlightHtmlMarkup(el.$el.outerHTML)}</code>`,
+                    },
+                    'alpine.js'
+                );
+            }
 
-        getWindow().Alpine.addMagicProperty('ray', () => ray);
+            if (config.logCustomEvents ?? false) {
+                const eventRegex = new RegExp(/(?:@|x-on:)([\w-_.]+)=/g);
+                const html: string = el.$el.outerHTML;
+                const matches = html.matchAll(eventRegex);
+                const eventNames: string[] = [];
+
+                for (const match of matches) {
+                    eventNames.push(match[1]);
+                }
+
+                eventNames.forEach(name => {
+                    const nameParts = name.split('.');
+                    const eventName: string = nameParts[0] ?? name; //name.split('.').shift() ?? name;
+                    const lastNamePart = nameParts[nameParts.length - 1];
+
+                    window.addEventListener(eventName, e => {
+                        if (eventName.includes('-') || (nameParts.length === 2 && lastNamePart === 'window')) {
+                            rayInstance.table({
+                                event: name,
+                                payload: e.detail ?? null,
+                                //targetTag: e.target.localName,
+                                //targetText: e.target.innerText,
+                                //sourceText: e.srcElement.innerText,
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    },
+
+    init(window: any = null, rayInstance: any = null) {
+        window = window ?? getWindow();
+        rayInstance = rayInstance ?? ray;
+
+        AlpineRayMagicMethod.initOnDocumentReady(window);
+        AlpineRayMagicMethod.initDeferLoadingAlpine(window, rayInstance);
+    },
+
+    start(window: any = null, rayInstance: any = null) {
+        window = window ?? getWindow();
+        rayInstance = rayInstance ?? ray;
+
+        checkForAxios(window);
+        checkForAlpine(window);
+
+        window.Alpine.addMagicProperty('ray', () => rayInstance);
     },
 };
 
