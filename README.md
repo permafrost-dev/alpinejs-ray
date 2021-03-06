@@ -19,11 +19,10 @@ This package can be installed into any project using alpine.js to send messages 
 
 ## Installation via CDN
 
-The preferred way to use this package is to load it via a CDN.  You'll also need to load the `axios` and `node-ray` libraries:
+The preferred way to use this package is to load it via a CDN.  You'll need to load the `axios` library as well:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/axios@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/node-ray@latest/dist/standalone.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.min.js"></script>
 ```
 
@@ -63,7 +62,7 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
     };
 </script>
 
-<!-- load axios, node-ray, and alpinejs-ray scripts here -->
+<!-- load axios and alpinejs-ray scripts here -->
 ```
 
 | Name | Type | Default | Description |
@@ -79,7 +78,7 @@ See the [node-ray reference](https://github.com/permafrost-dev/node-ray#referenc
 ## Example Component
 
 ```html
-    <button @click="$ray('hello from alpine')">Send to Ray</button>
+<button @click="$ray('hello from alpine')">Send to Ray</button>
 ```
 
 ## Development setup
