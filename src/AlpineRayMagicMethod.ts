@@ -19,8 +19,8 @@ const AlpineRayMagicMethod = {
         const alpine = getWindow().deferLoadingAlpine || ((alpine: any) => alpine());
 
         getWindow().deferLoadingAlpine = function (callback: CallableFunction) {
-            if (config.logComponentsInit ?? false) {
-                getWindow().Alpine.onComponentInitialized(el => {
+            getWindow().Alpine.onComponentInitialized(el => {
+                if (config.logComponentsInit ?? false) {
                     ray().table(
                         {
                             'component event': 'component init',
@@ -29,8 +29,37 @@ const AlpineRayMagicMethod = {
                         },
                         'alpine.js'
                     );
-                });
-            }
+                }
+
+                if (config.logCustomEvents ?? false) {
+                    const eventRegex = new RegExp(/(?:@|x-on:)([\w-_.]+)=/g);
+                    const html: string = el.$el.outerHTML;
+                    const matches = html.matchAll(eventRegex);
+                    const eventNames: string[] = [];
+
+                    for (const match of matches) {
+                        eventNames.push(match[1]);
+                    }
+
+                    eventNames.forEach(name => {
+                        const nameParts = name.split('.');
+                        const eventName: string = nameParts[0] ?? name; //name.split('.').shift() ?? name;
+                        const lastNamePart = nameParts[nameParts.length - 1];
+
+                        getWindow().addEventListener(eventName, e => {
+                            if (eventName.includes('-') || (nameParts.length === 2 && lastNamePart === 'window')) {
+                                ray().table({
+                                    event: name,
+                                    payload: e.detail ?? null,
+                                    targetTag: e.target.localName,
+                                    targetText: e.target.innerText,
+                                    sourceText: e.srcElement.innerText,
+                                });
+                            }
+                        });
+                    });
+                }
+            });
 
             AlpineRayMagicMethod.start();
 
