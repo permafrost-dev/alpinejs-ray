@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-    <img src="https://shields.io/npm/v/alpinejs-ray" alt="npm version"> <img src="https://shields.io/npm/dt/alpinejs-ray" alt="npm downloads"> <img src="https://shields.io/github/license/permafrost-dev/alpinejs-ray" alt="license"> <img src="https://github.com/permafrost-dev/alpinejs-ray/workflows/Run%20Tests/badge.svg?branch=main" alt="test status"> <img src="https://codecov.io/gh/permafrost-dev/alpinejs-ray/branch/main/graph/badge.svg?token=YW2BTKSNEO"/>
+    <img src="https://shields.io/npm/v/alpinejs-ray" alt="npm version"> <img src="https://shields.io/npm/dt/alpinejs-ray" alt="npm downloads"> <img src="https://data.jsdelivr.com/v1/package/npm/alpinejs-ray/badge?style=rounded" alt="jsdelivr downloads"> <img src="https://shields.io/github/license/permafrost-dev/alpinejs-ray" alt="license"> <img src="https://github.com/permafrost-dev/alpinejs-ray/workflows/Run%20Tests/badge.svg?branch=main" alt="test status"> <img src="https://codecov.io/gh/permafrost-dev/alpinejs-ray/branch/main/graph/badge.svg?token=YW2BTKSNEO"/>
 </p>
 
 # alpinejs-ray
@@ -14,6 +14,14 @@
 ## Debug your Alpine.js code with Ray to fix problems faster
 
 This package can be installed into any project using alpine.js to send messages to the [Ray app](https://myray.app).
+
+## Using the package
+
+The preferred way to use this package is to load it via a CDN:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.js"></script>
+```
 
 ## Installation
 
@@ -29,23 +37,38 @@ or yarn:
 yarn add alpinejs-ray
 ```
 
-### Installing in Alpine.js
+### Importing the plugin
 
-import package normally:
+Although not the recommended way, you can import package normally:
 
 ```js 
-// TODO installation
+const AlpineRayPlugin = require('alpinejs-ray');
+
+// the plugin must be initialized:
+AlpineRayPlugin.init();
 ```
 
-### Installation options
+### Configuration options
+
+To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on the `window` object before loading `alpinejs-ray`:
+
+```html
+<script>
+    window.alpineRayConfig = {
+        logComponentsInit: true,
+    };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.js"></script>
+```
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `option1` | `string` | `abc` | description |
+| `logComponentsInit` | `boolean` | `false` | Send info on component initializations to Ray |
 
 ## Usage
 
-Once the plugin is installed, you may access the `ray()` method on `this` as `this.$ray()`.
+Once the plugin is installed, you may access the `$ray()` method.
 
 See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a full list of available methods.
 
@@ -57,8 +80,8 @@ See the [node-ray reference](https://github.com/permafrost-dev/node-ray#referenc
 
 ## Example Component
 
-```js
-// TODO example
+```html
+    <button @click="$ray('hello from alpine')">Send to Ray</button>
 ```
 
 ## Development setup
