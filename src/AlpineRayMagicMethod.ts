@@ -37,7 +37,7 @@ const AlpineRayMagicMethod = {
 
                     const element = {
                         data: dataObj,
-                        innerHTML: encodeHtmlEntities(el.$el.innerHTML),
+                        innerHTML: encodeHtmlEntities(el.$el.outerHTML),
                     };
 
                     ray().table({ 'component init': element });
