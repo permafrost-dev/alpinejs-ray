@@ -24,8 +24,6 @@ const AlpineRayMagicMethod = {
         getWindow().deferLoadingAlpine = function (callback: CallableFunction) {
             if (config.logComponentsInit ?? false) {
                 getWindow().Alpine.onComponentInitialized(el => {
-                    //const ray = getWindow().Ray.ray;
-
                     const dataObj = {};
 
                     // don't display some alpine props within el.$data
