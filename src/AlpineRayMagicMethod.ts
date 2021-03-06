@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 
-import { getWindow, checkForAlpine, checkForAxios, encodeHtmlEntities } from './lib/utils';
-
-import { ray, Ray } from 'node-ray/web';
+import { getWindow, checkForAlpine, checkForAxios, highlightHtmlMarkup, filterObjectKeys } from './lib/utils';
+import { ray } from './AlpineRay';
 
 const AlpineRayMagicMethod = {
     initOnDocumentReady() {
@@ -14,8 +13,6 @@ const AlpineRayMagicMethod = {
     },
 
     init() {
-        console.log('initialized AlpineRayMagicMethod');
-
         AlpineRayMagicMethod.initOnDocumentReady();
 
         const config = getWindow().alpineRayConfig || {};
@@ -24,21 +21,14 @@ const AlpineRayMagicMethod = {
         getWindow().deferLoadingAlpine = function (callback: CallableFunction) {
             if (config.logComponentsInit ?? false) {
                 getWindow().Alpine.onComponentInitialized(el => {
-                    const dataObj = {};
-
-                    // don't display some alpine props within el.$data
-                    Object.keys(el.$data)
-                        .filter(key => !['$el', '$watch', '$refs', '$nextTick'].includes(key))
-                        .forEach(key => {
-                            dataObj[key] = el.$data[key];
-                        });
-
-                    const element = {
-                        data: dataObj,
-                        innerHTML: encodeHtmlEntities(el.$el.outerHTML),
-                    };
-
-                    ray().table({ 'component init': element });
+                    ray().table(
+                        {
+                            'component event': 'component init',
+                            data: filterObjectKeys(el.$data, ['$el', '$watch', '$refs', '$nextTick']),
+                            HTML: `<code class="text-sm text-black">${highlightHtmlMarkup(el.$el.outerHTML)}</code>`,
+                        },
+                        'alpine.js'
+                    );
                 });
             }
 
@@ -49,18 +39,10 @@ const AlpineRayMagicMethod = {
     },
 
     start() {
-        console.log('started AlpineRayMagicMethod');
-
         checkForAxios();
         checkForAlpine();
 
-        const Alpine = getWindow().Alpine;
-
-        Alpine.addMagicProperty('ray', () => {
-            return (...parameters: any[]) => {
-                return Ray.create().send(...parameters);
-            };
-        });
+        getWindow().Alpine.addMagicProperty('ray', () => ray);
     },
 };
 

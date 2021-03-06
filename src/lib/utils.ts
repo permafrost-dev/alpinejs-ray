@@ -6,7 +6,7 @@ export function getWindow() {
 }
 
 /**
- * Determines if the node-ray standalone library has been installed and initialized in the current browser environment.
+ * Determines if the axios library has been installed and initialized in the current browser environment.
  *
  * @param window
  */
@@ -100,4 +100,30 @@ export const encodeHtmlEntities = (str: string) => {
     const regex = new RegExp(`[${chars.join('')}]`, 'g');
 
     return str.replace(regex, m => `&${escapeChars[m]};`);
+};
+
+export const filterObjectKeys = (obj: Record<string, unknown>, ignoreKeys: string[]): Record<string, unknown> => {
+    const result = {};
+
+    Object.keys(obj)
+        .filter(key => !ignoreKeys.includes(key))
+        .forEach(key => {
+            result[key] = obj[key];
+        });
+
+    return result;
+};
+
+export const highlightHtmlMarkup = (str: string) => {
+    return encodeHtmlEntities(str)
+        .replace(/(:?href|:?id|:?name|:?value|:?type|:?style|:?class|:?key)=/g, '<span class="text-orange-400">$1</span>=')
+        .replace(/&#39;(.+)&#39;/g, '<span class="text-purple-600">&#39;$1&#39;</span>')
+        .replace(/&quot;(.*)&quot;/g, '<span class="text-green-600">&quot;$1&quot;</span>')
+        .replace(/\r?\n/g, '<br>')
+        .replace(/(&lt;)(\/?\s*[\w-_]+)(&gt;)?/g, '<span class="text-blue-600">$1$2$3</span>')
+        .replace(
+            /(@click|x-bind|x-cloak|x-data|x-for|x-if|x-html|x-init|x-model[\.\-\w+]*|x-on:\w+[\.\-\w+]*|x-ref|x-show|x-spread|x-transition:\w+[\-\w]+|x-text)=/g,
+            '<span class="text-indigo-800">$1</span>='
+        )
+        .replace(/(\$el|\$refs|\$event|\$data|\$dispatch|\$nextTick|\$watch|\$ray)/g, '<span class="text-red-700">$1</span>');
 };

@@ -1,9 +1,8 @@
-//import { checkForRay } from './lib/utils';
 import AlpineRayPlugin from './AlpineRayMagicMethod';
 
-const alpineMethods = [AlpineRayPlugin];
-
 const initializeLibrary = () => {
+    const alpineMethods = [AlpineRayPlugin];
+
     alpineMethods.forEach(am => {
         am.init();
     });
