@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 
-import { getWindow, checkForAlpine, encodeHtmlEntities } from './lib/utils';
+import { getWindow, checkForAlpine, checkForAxios, encodeHtmlEntities } from './lib/utils';
+
+import { ray, Ray } from 'node-ray/web';
 
 const AlpineRayMagicMethod = {
     initOnDocumentReady() {
@@ -22,7 +24,7 @@ const AlpineRayMagicMethod = {
         getWindow().deferLoadingAlpine = function (callback: CallableFunction) {
             if (config.logComponentsInit ?? false) {
                 getWindow().Alpine.onComponentInitialized(el => {
-                    const ray = getWindow().Ray.ray;
+                    //const ray = getWindow().Ray.ray;
 
                     const dataObj = {};
 
@@ -51,15 +53,14 @@ const AlpineRayMagicMethod = {
     start() {
         console.log('started AlpineRayMagicMethod');
 
+        checkForAxios();
         checkForAlpine();
 
         const Alpine = getWindow().Alpine;
 
         Alpine.addMagicProperty('ray', () => {
             return (...parameters: any[]) => {
-                return getWindow()
-                    .Ray.Ray.create()
-                    .send(...parameters);
+                return Ray.create().send(...parameters);
             };
         });
     },

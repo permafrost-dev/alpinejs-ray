@@ -10,6 +10,19 @@ export function getWindow() {
  *
  * @param window
  */
+export const checkForAxios = (window: any = null) => {
+    const win: any = window ?? getWindow();
+
+    if (!win.axios) {
+        throw new Error('[alpinejs-ray] axios is required for alpinejs-ray to function correctly.');
+    }
+};
+
+/**
+ * Determines if the node-ray standalone library has been installed and initialized in the current browser environment.
+ *
+ * @param window
+ */
 export const checkForRay = (window: any = null) => {
     const win: any = window ?? getWindow();
 
