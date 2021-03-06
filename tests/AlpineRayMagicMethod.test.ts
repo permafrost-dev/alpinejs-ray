@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
 import AlpineRayMagicMethod from '../src/AlpineRayMagicMethod';
@@ -38,6 +39,10 @@ class FakeRay {
 beforeEach(() => {
     win = {
         axios: {},
+        alpineRayConfig: {
+            logComponentsInit: false,
+            logCustomEvents: false,
+        },
         Alpine: {
             version: '5.0.0',
             addMagicProperty(name: string, callback: CallableFunction) {
@@ -175,4 +180,30 @@ it('logs custom component events', () => {
     });
 
     expect(testState.rayPayloadHistory).toMatchSnapshot();
+});
+
+it('initializes defered loading of alpine', () => {
+    AlpineRayMagicMethod.initDeferLoadingAlpine(win, rayInstance);
+
+    let callbackCalls = 0;
+
+    const callback = cb => {
+        callbackCalls++;
+    };
+
+    win.deferLoadingAlpine(callback);
+
+    expect(win.deferLoadingAlpine).not.toBeUndefined();
+    expect(typeof win.deferLoadingAlpine).toBe('function');
+    expect(callbackCalls).toBe(0);
+});
+
+it('initializes the object', () => {
+    AlpineRayMagicMethod.init(win, rayInstance);
+
+    testState.documentEventListeners.forEach(listener => listener.callback());
+
+    expect(testState.documentEventListeners.length).toBe(1);
+    expect(win.deferLoadingAlpine).not.toBeUndefined();
+    expect(typeof win.deferLoadingAlpine).toBe('function');
 });
