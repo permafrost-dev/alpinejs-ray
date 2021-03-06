@@ -1,5 +1,16 @@
-console.log('hello world');
+import { checkForRay } from './lib/utils';
+import AlpineRayMagicMethod from './AlpineRayMagicMethod';
 
-export function add(a: number, b: number) {
-    return a + b;
-}
+const alpineMethods = [AlpineRayMagicMethod];
+
+const initializeLibrary = () => {
+    checkForRay();
+
+    alpineMethods.forEach(am => {
+        am.init();
+    });
+};
+
+initializeLibrary();
+
+export default AlpineRayMagicMethod;
