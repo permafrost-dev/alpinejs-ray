@@ -115,15 +115,25 @@ export const filterObjectKeys = (obj: Record<string, unknown>, ignoreKeys: strin
 };
 
 export const highlightHtmlMarkup = (str: string) => {
-    return encodeHtmlEntities(str)
-        .replace(/(:?href|:?id|:?name|:?value|:?type|:?style|:?class|:?key)=/g, '<span class="text-orange-400">$1</span>=')
-        .replace(/&#39;(.+)&#39;/g, '<span class="text-purple-600">&#39;$1&#39;</span>')
-        .replace(/&quot;(.*)&quot;/g, '<span class="text-green-600">&quot;$1&quot;</span>')
-        .replace(/\r?\n/g, '<br>')
-        .replace(/(&lt;)(\/?\s*[\w-_]+)(&gt;)?/g, '<span class="text-blue-600">$1$2$3</span>')
-        .replace(
-            /(@click|x-bind|x-cloak|x-data|x-for|x-if|x-html|x-init|x-model[\.\-\w+]*|x-on:\w+[\.\-\w+]*|x-ref|x-show|x-spread|x-transition:\w+[\-\w]+|x-text)=/g,
-            '<span class="text-indigo-800">$1</span>='
-        )
-        .replace(/(\$el|\$refs|\$event|\$data|\$dispatch|\$nextTick|\$watch|\$ray)/g, '<span class="text-red-700">$1</span>');
+    return (
+        encodeHtmlEntities(str)
+            .replace(/(:?href|:?id|:?name|:?value|:?type|:?style|:?class|:?key)=/g, '<span class="text-orange-400">$1</span>=')
+            .replace(/&#39;/g, "'")
+            .replace(/('[^']*')/g, '<div class="text-purple-600 inline">$1</div>')
+            //.replace(/'/g, '&#39;')
+            .replace(/&quot;(.*)&quot;/g, '<span class="text-green-600">&quot;$1&quot;</span>')
+            .replace(
+                /([{,](?:&nbsp;|\s*))('\w+'|\w+):/g,
+                '$1<div class="text-blue-800 bg-blue-200 rounded-md p-1 inline">$2</div>:'
+            )
+            .replace(/:&nbsp;(-?\d+\.\d+|-?\d+)/g, ':&nbsp;<span class="text-red-800">$1</span>')
+            .replace(/:&nbsp;(true|false|null)/g, ':&nbsp;<span class="text-orange-700 font-bold">$1</span>')
+            .replace(/\r?\n/g, '<br>')
+            .replace(/(&lt;)(\/?\s*[\w-_]+)(&gt;)?/g, '<span class="text-blue-600">$1$2$3</span>')
+            .replace(
+                /(@click|x-bind|x-cloak|x-data|x-for|x-if|x-html|x-init|x-model[\.\-\w+]*|x-on:\w+[\.\-\w+]*|x-ref|x-show|x-spread|x-transition:\w+[\-\w]+|x-text)=/g,
+                '<span class="text-indigo-800">$1</span>='
+            )
+            .replace(/(\$el|\$refs|\$event|\$data|\$dispatch|\$nextTick|\$watch|\$ray)/g, '<span class="text-red-700">$1</span>')
+    );
 };
