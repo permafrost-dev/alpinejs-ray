@@ -4,6 +4,9 @@ All notable changes to `permafrost-dev/alpinejs-ray` will be documented in this 
 
 ---
 
+## 1.1.1 - 2021-03-06
+
+- update `node-ray` package to `v1.10.1`
 
 ## 1.1.0 - 2021-03-06
 
