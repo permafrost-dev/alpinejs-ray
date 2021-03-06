@@ -121,13 +121,15 @@ export const highlightHtmlMarkup = (str: string) => {
             .replace(/&#39;/g, "'")
             .replace(/('[^']*')/g, '<div class="text-purple-600 inline">$1</div>')
             //.replace(/'/g, '&#39;')
+            .replace(/=&quot;(.+)(true|false)(.*)&quot;/g, '=&quot;$1<span class="text-orange-600 font-bold">$2</span>$3&quot;')
             .replace(/&quot;(.*)&quot;/g, '<span class="text-green-600">&quot;$1&quot;</span>')
             .replace(
                 /([{,](?:&nbsp;|\s*))('\w+'|\w+):/g,
                 '$1<div class="text-blue-800 bg-blue-200 rounded-md p-1 inline">$2</div>:'
             )
             .replace(/:&nbsp;(-?\d+\.\d+|-?\d+)/g, ':&nbsp;<span class="text-red-800">$1</span>')
-            .replace(/:&nbsp;(true|false|null)/g, ':&nbsp;<span class="text-orange-700 font-bold">$1</span>')
+            .replace(/:&nbsp;(true|false|null)/g, ':&nbsp;<span class="text-orange-600 font-bold">$1</span>')
+
             .replace(/\r?\n/g, '<br>')
             .replace(/(&lt;)(\/?\s*[\w-_]+)(&gt;)?/g, '<span class="text-blue-600">$1$2$3</span>')
             .replace(
