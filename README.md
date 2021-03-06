@@ -6,7 +6,9 @@
 </p>
 
 <p align="center">
-    <img src="https://shields.io/npm/v/alpinejs-ray" alt="npm version"> <img src="https://shields.io/npm/dt/alpinejs-ray" alt="npm downloads"> <img src="https://data.jsdelivr.com/v1/package/npm/alpinejs-ray/badge?style=rounded" alt="jsdelivr downloads"> <img src="https://shields.io/github/license/permafrost-dev/alpinejs-ray" alt="license"> <img src="https://github.com/permafrost-dev/alpinejs-ray/workflows/Run%20Tests/badge.svg?branch=main" alt="test status"> <img src="https://codecov.io/gh/permafrost-dev/alpinejs-ray/branch/main/graph/badge.svg?token=YW2BTKSNEO"/>
+    <img src="https://shields.io/npm/v/alpinejs-ray" alt="npm version"> <img src="https://shields.io/github/license/permafrost-dev/alpinejs-ray" alt="license"> <img src="https://github.com/permafrost-dev/alpinejs-ray/workflows/Run%20Tests/badge.svg?branch=main" alt="test status"> <img src="https://codecov.io/gh/permafrost-dev/alpinejs-ray/branch/main/graph/badge.svg?token=YW2BTKSNEO"/>
+    <br>
+    <img src="https://shields.io/npm/dt/alpinejs-ray" alt="npm downloads"> <img src="https://data.jsdelivr.com/v1/package/npm/alpinejs-ray/badge?style=rounded" alt="jsdelivr downloads">
 </p>
 
 # alpinejs-ray
@@ -15,15 +17,17 @@
 
 This package can be installed into any project using alpine.js to send messages to the [Ray app](https://myray.app).
 
-## Using the package
+## Installation via CDN
 
-The preferred way to use this package is to load it via a CDN:
+The preferred way to use this package is to load it via a CDN.  You'll also need to load the `axios` and `node-ray` libraries:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/node-ray@latest/dist/standalone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.min.js"></script>
 ```
 
-## Installation
+## Installation with package bundlers
 
 Install with npm:
 
@@ -37,7 +41,7 @@ or yarn:
 yarn add alpinejs-ray
 ```
 
-### Importing the plugin
+#### Importing the plugin
 
 Although not the recommended way, you can import package normally:
 
@@ -59,6 +63,7 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
     };
 </script>
 
+<!-- load axios and node-ray here -->
 <script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.js"></script>
 ```
 
@@ -68,7 +73,7 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 
 ## Usage
 
-Once the plugin is installed, you may access the `$ray()` method.
+Once the plugin is installed, you may access the `$ray()` method within your components.
 
 See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a full list of available methods.
 
@@ -76,7 +81,7 @@ See the [node-ray reference](https://github.com/permafrost-dev/node-ray#referenc
 
 | Name | Description |
 | --- | --- |
-| `this.$ray().data()` | show the component data |
+| `$ray().data()` | show the component data |
 
 ## Example Component
 
