@@ -68,6 +68,7 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `logComponentsInit` | `boolean` | `false` | Send info on component initializations to Ray |
+| `logCustomEvents` | `boolean` | `false` | Send info on custom events to Ray _(events with hyphenated names)_ |
 
 ## Usage
 
