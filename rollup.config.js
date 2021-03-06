@@ -43,6 +43,7 @@ export default {
         'dayjs',
         'stopwatch-node',
         'md5',
+        'node-ray',
         '@permafrost-dev/pretty-format',
         'stacktrace-js',
         'xml-formatter',

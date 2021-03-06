@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
+import { terser } from 'rollup-plugin-terser';
 
 const options = {
     sourceMapsEnabled: true,
@@ -11,16 +12,14 @@ const options = {
 export default {
     input: `src/index.ts`,
     output: {
-            file: `dist/standalone.js`,
+            file: `dist/standalone.min.js`,
             format: 'umd',
             name: 'AlpineRay',
             sourcemap: options.sourceMapsEnabled,
             exports: 'named',
-            plugins: [],
+            plugins: [terser()],
             globals: { 'axios': 'axios' },
-        },
-    
-    // moduleContext: { 'src/v3/Vue2RayMixin.ts': 'this' },
+    },
     plugins: [
         replace({
             values: {
@@ -34,6 +33,6 @@ export default {
         typescript(),
     ],
     external: [
-        'axios', 'node-ray',
+        'axios', //'node-ray',
     ],
 };
