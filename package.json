@@ -13,6 +13,7 @@
     "url": "https://github.com/permafrost-dev/alpinejs-ray/issues"
   },
   "main": "./dist/index.cjs.js",
+  "jsdelivr": "./dist/standalone.min.js",
   "exports": {
     ".": {
       "import": "./dist/index.esm.mjs",
