@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logs component initializations 1`] = `
+Array [
+  Object {
+    "args": Array [
+      Array [
+        Object {
+          "HTML": "<code class=\\"text-sm text-black\\"><span class=\\"text-blue-600\\">&lt;em&gt;</span>test&nbsp;content<span class=\\"text-blue-600\\">&lt;/em&gt;</span></code>",
+          "component event": "component init",
+          "data": Object {
+            "one": 1,
+          },
+        },
+        "alpine.js",
+      ],
+    ],
+    "type": "table",
+  },
+]
+`;
+
+exports[`logs custom component events 1`] = `
+Array [
+  Object {
+    "args": Array [
+      Array [
+        Object {
+          "event": "custom-event",
+          "payload": Object {
+            "oneOne": 11,
+          },
+        },
+      ],
+    ],
+    "type": "table",
+  },
+  Object {
+    "args": Array [
+      Array [
+        Object {
+          "event": "my-event-two",
+          "payload": Object {
+            "oneOne": 11,
+          },
+        },
+      ],
+    ],
+    "type": "table",
+  },
+]
+`;
