@@ -76,10 +76,33 @@ Once the plugin is installed, you may access the `$ray()` method within your com
 
 See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a full list of available methods.
 
-## Example Component
+## Example Components
 
 ```html
 <button @click="$ray('hello from alpine')">Send to Ray</button>
+```
+
+```html
+<div x-data="onClickData()" x-init="init()">
+    <div x-show="show">Hi There Ray!</div>
+
+    <button x-on:click="toggle()">Show/Hide (Ray)</button>
+</div>
+
+<script>        
+function onClickData() {
+    return {
+        init() {
+            this.$ray().html('<strong>init on-click-ray data</strong>');
+        },
+        toggle() {
+            this.show = !this.show;
+            this.$ray('toggled show value to ' + (this.show ? 'true' : 'false'));
+        },
+        show: false,
+    };
+}
+</script>
 ```
 
 ## Development setup
