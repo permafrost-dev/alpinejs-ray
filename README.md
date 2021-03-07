@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-ray-logo.png" alt="alpinejs-ray" height="200" style="block">
+    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-ray-logo-600x300.png" alt="alpinejs-ray" height="200" style="block">
     <br><br>
     <code style="font-size:3.0rem;"><strong>alpinejs-ray</strong></code>
     <br><br>
