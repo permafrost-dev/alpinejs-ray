@@ -54,7 +54,7 @@ const AlpineRayMagicMethod = {
 
                 eventNames.forEach(name => {
                     const nameParts = name.split('.');
-                    const eventName: string = nameParts[0] ?? name; //name.split('.').shift() ?? name;
+                    const eventName: string = nameParts[0] ?? name;
                     const lastNamePart = nameParts[nameParts.length - 1];
 
                     window.addEventListener(eventName, e => {
@@ -62,9 +62,6 @@ const AlpineRayMagicMethod = {
                             rayInstance.table({
                                 event: name,
                                 payload: e.detail ?? null,
-                                //targetTag: e.target.localName,
-                                //targetText: e.target.innerText,
-                                //sourceText: e.srcElement.innerText,
                             });
                         }
                     });
