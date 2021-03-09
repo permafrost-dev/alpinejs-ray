@@ -139,3 +139,74 @@ export const highlightHtmlMarkup = (str: string) => {
             .replace(/(\$el|\$refs|\$event|\$data|\$dispatch|\$nextTick|\$watch|\$ray)/g, '<span class="text-red-700">$1</span>')
     );
 };
+
+export function getComponentName(element: any) {
+    return (
+        element.getAttribute('x-title') ||
+        element.getAttribute('x-id') ||
+        element.id ||
+        element.getAttribute('name') ||
+        element.getAttribute('title') ||
+        findWireID(element.getAttribute('wire:id')) ||
+        findLiveViewName(element) ||
+        element.getAttribute('aria-label') ||
+        extractFunctionName(element.getAttribute('x-data')) ||
+        element.getAttribute('role') ||
+        element.tagName.toLowerCase()
+    );
+}
+
+// TODO: Not sure how to test this
+export function findWireID(wireId, window: any = null) {
+    window = window ?? getWindow();
+
+    if (wireId && window.livewire) {
+        try {
+            const wire = window.livewire.find(wireId);
+
+            if (wire.__instance) {
+                return 'livewire:' + wire.__instance.fingerprint.name;
+            }
+        } catch (e) {}
+    }
+}
+
+export function findLiveViewName(alpineEl, window: any = null) {
+    window = window ?? getWindow();
+
+    const phxEl = alpineEl.closest('[data-phx-view]');
+    if (phxEl) {
+        // pretty sure we could do the following instead
+        // return phxEl.dataset.phxView;
+        if (!window.liveSocket.getViewByEl) {
+            return;
+        }
+        const view = window.liveSocket.getViewByEl(phxEl);
+        return view && view.name;
+    }
+}
+
+export function extractFunctionName(functionName) {
+    if (functionName.startsWith('{')) {
+        return;
+    }
+    return functionName
+        .replace(/\(([^\)]+)\)/, '') // Handles myFunction(param)
+        .replace('()', '');
+}
+
+export function findParentComponent(el: any) {
+    let counter = 0;
+    let e = el;
+
+    while (counter < 10) {
+        counter++;
+        e = e.parentElement;
+
+        if (e.hasAttribute('x-data')) {
+            return e;
+        }
+    }
+
+    return null;
+}
