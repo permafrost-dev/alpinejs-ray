@@ -116,6 +116,30 @@ function onClickData() {
 </script>
 ```
 
+## Tracking Spruce Data Stores
+
+Spruce data store are automatically tracked if Spruce is installed.  Consider the following:
+
+```js
+window.Spruce.store('mydata', {
+    showing: false,
+    toggle() {
+        this.showing = !this.showing;
+        ray().html('<strong>[spruce]</strong> showing = ' + this.showing);
+    }
+});
+ 
+setInterval( () => {
+    window.Spruce.stores.mydata.showing = !window.Spruce.stores.mydata.showing;
+}, 3000);
+```
+
+Data tracking example _(note that the values change in place)_:
+
+<p align="center">
+    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-tracking-spruce-01.gif" alt="data tracking">
+</p>
+
 ## Development setup
 
 - `npm install`
