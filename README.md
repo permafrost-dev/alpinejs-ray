@@ -44,13 +44,22 @@ yarn add alpinejs-ray
 
 #### Importing the plugin
 
-Although not the recommended way, you can import package normally:
+Although not the recommended way, you can import package normally, along with `node-ray/web`, `alpinejs` and `axios`:
 
 ```js 
+import { Ray, ray } from 'node-ray/web';
+import Alpine from 'alpinejs';
 import AlpineRayPlugin from 'alpinejs-ray';
 
-// the plugin must be initialized:
-AlpineRayPlugin.init();
+window.ray = ray;
+window.Ray = Ray;
+window.axios = require('axios');
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.Alpine = Alpine;
+window.AlpineRayPlugin = AlpineRayPlugin;
+window.AlpineRayPlugin.init();
+window.AlpineRayPlugin.start();
 ```
 
 ### Configuration options
