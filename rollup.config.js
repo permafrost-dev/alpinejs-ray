@@ -41,6 +41,8 @@ export default {
     external: [
         'axios',
         'dayjs',
+        'crypto',
+        'object-hash',
         'stopwatch-node',
         'md5',
         'node-ray',
