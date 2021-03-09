@@ -17,6 +17,8 @@
 
 This package can be installed into any project using alpine.js to send messages to the [Ray app](https://myray.app).
 
+![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png)
+
 ## Installation via CDN
 
 The preferred way to use this package is to load it via a CDN.  You'll need to load the `axios` library as well:
