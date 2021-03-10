@@ -38,7 +38,7 @@ export function addErrorEventHandlers(window: any = null, rayInstance: any = nul
         }
     });
 
-    getWindow().addEventListener('unhandledrejection', (rejectionEvent: any) => {
+    window.addEventListener('unhandledrejection', (rejectionEvent: any) => {
         if (rejectionEvent.reason) {
             const { el, expression } = rejectionEvent.reason;
             const parentComponent = findParentComponent(el);

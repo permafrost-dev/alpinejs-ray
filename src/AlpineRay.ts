@@ -8,7 +8,7 @@ export class AlpineRay extends Ray {
 
 export const ray = (...args: any[]) => {
     // @ts-ignore
-    return Ray.create().send(...args);
+    return AlpineRay.create().send(...args);
 };
 
 globalThis.ray = function (...args: any[]) {

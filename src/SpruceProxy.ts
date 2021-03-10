@@ -7,13 +7,14 @@ import { ray } from './AlpineRay';
 const trackRays = {};
 
 export class SpruceProxy {
-    public spruceIntance: any = null;
+    public spruceInstance: any = null;
     public window: any;
     public rayInstance: any;
 
     constructor(window: any = null, rayInstance: any = null) {
         this.window = window ?? getWindow();
-        this.rayInstance = rayInstance ?? ray();
+        this.rayInstance = rayInstance ?? ray;
+        this.spruceInstance = this.window.Spruce;
     }
 
     public checkForSpruce() {
@@ -27,14 +28,14 @@ export class SpruceProxy {
     }
 
     public spruce() {
-        return this.spruceIntance;
+        return this.spruceInstance;
     }
 
     public init() {
         if (this.hasSpruceInstallation()) {
             this.checkForSpruce();
 
-            this.spruceIntance = this.window.Spruce;
+            this.spruceInstance = this.window.Spruce;
             this.window.SpruceProxy = this;
 
             this.interceptStoreCreation();
@@ -72,7 +73,7 @@ export class SpruceProxy {
 
     public displayTracking(key: string, action: string, value: any) {
         if (typeof trackRays[<string>key] === 'undefined') {
-            trackRays[<string>key] = ray();
+            trackRays[<string>key] = this.rayInstance();
         }
 
         const data = {
@@ -87,10 +88,10 @@ export class SpruceProxy {
     }
 
     public dumpStore(name: string) {
-        ray().table(this.spruceIntance.stores[name]);
+        this.rayInstance().table(this.spruceInstance.stores[name]);
     }
 
     public dumpAllStores() {
-        ray().table(this.spruceIntance.stores);
+        this.rayInstance().table(this.spruceInstance.stores);
     }
 }
