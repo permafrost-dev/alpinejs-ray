@@ -4,6 +4,12 @@ All notable changes to `permafrost-dev/alpinejs-ray` will be documented in this 
 
 ---
 
+## 1.3.0 - 2021-03-12
+
+- add `bootstrapImports()` helper to reduce boilerplate code when importing for use with a bundler
+
+- fix issue with `SpruceProxy.displayTracking()` not finding the `ray()` helper
+
 ## 1.2.0 - 2021-03-09
 
 - add interception and display for errors in alpine components
