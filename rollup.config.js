@@ -15,7 +15,7 @@ export default {
             file: `dist/index.cjs.js`,
             format: 'cjs',
             sourcemap: options.sourceMapsEnabled,
-            exports: 'auto',
+            exports: 'named',
             plugins: [],
         },
         {
@@ -25,7 +25,7 @@ export default {
             plugins: [],
         },
     ],
-    // moduleContext: { 'src/v3/Vue2RayMixin.ts': 'this' },
+    //moduleContext: { 'src/SpruceProxy.ts': 'this' },
     plugins: [
         replace({
             values: {
@@ -46,6 +46,7 @@ export default {
         'stopwatch-node',
         'md5',
         'node-ray',
+        'node-ray/web',
         '@permafrost-dev/pretty-format',
         'stacktrace-js',
         'xml-formatter',
