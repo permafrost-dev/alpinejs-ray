@@ -5,6 +5,6 @@ import { getWindow } from './lib/utils';
 
 export { bootstrapImports } from './BootstrapImports';
 
-initializeLibrary([AlpineRayPlugin], getWindow(), ray());
+initializeLibrary([AlpineRayPlugin], getWindow(), ray);
 
 export default AlpineRayPlugin;

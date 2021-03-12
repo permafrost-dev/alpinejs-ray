@@ -46,6 +46,12 @@ class FakeRay {
 
 beforeEach(() => {
     win = {
+        ray(...args: any[]) {
+            if (!args.length) {
+                return new FakeRay();
+            }
+            return new FakeRay().send('log', ...args);
+        },
         axios: {},
         alpineRayConfig: {
             logComponentsInit: false,

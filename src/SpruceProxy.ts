@@ -13,7 +13,7 @@ export class SpruceProxy {
 
     constructor(window: any = null, rayInstance: any = null) {
         this.window = window ?? getWindow();
-        this.rayInstance = rayInstance ?? ray;
+        this.rayInstance = rayInstance ?? ray();
         this.spruceInstance = this.window.Spruce;
     }
 
@@ -73,7 +73,7 @@ export class SpruceProxy {
 
     public displayTracking(key: string, action: string, value: any) {
         if (typeof trackRays[<string>key] === 'undefined') {
-            trackRays[<string>key] = this.rayInstance();
+            trackRays[<string>key] = this?.rayInstance() ?? ray();
         }
 
         const data = {
@@ -88,10 +88,12 @@ export class SpruceProxy {
     }
 
     public dumpStore(name: string) {
-        this.rayInstance().table(this.spruceInstance.stores[name]);
+        const rayInstance = this?.rayInstance ?? ray;
+        rayInstance().table(this.spruceInstance.stores[name]);
     }
 
     public dumpAllStores() {
-        this.rayInstance().table(this.spruceInstance.stores);
+        const rayInstance = this?.rayInstance ?? ray;
+        rayInstance().table(this.spruceInstance.stores);
     }
 }
