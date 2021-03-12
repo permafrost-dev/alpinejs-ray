@@ -126,6 +126,12 @@ function onClickData() {
 </script>
 ```
 
+## Displaying errors
+
+Errors can be automatically sent to Ray. The portion of the code that caused the error is highlighted.
+
+![screenshot](https://static.permafrost.dev/images/alpinejs-ray/error-display.png)
+
 ## Tracking Spruce Data Stores
 
 Spruce data store are automatically tracked if Spruce is installed.  Consider the following:
