@@ -62,6 +62,16 @@ window.AlpineRayPlugin.init();
 window.AlpineRayPlugin.start();
 ```
 
+To help reduce this large amount of boilerplate code, you can use the bootstrap helper function:
+
+```js
+import Alpine from 'alpinejs';
+import { bootstrapImports } from 'alpinejs-ray';
+
+const AlpineRayPlugin = bootstrapImports(Alpine);
+AlpineRayPlugin.start();
+```
+
 ### Configuration options
 
 To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on the `window` object before loading `alpinejs-ray`:
