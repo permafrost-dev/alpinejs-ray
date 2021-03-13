@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sends an update to Ray when a watched property changes 1`] = `
+Array [
+  Object {
+    "args": Array [
+      Array [
+        Object {
+          "name": "mydata.one",
+          "title": "Spruce Watched Property Change",
+          "value": "new_value",
+        },
+      ],
+    ],
+    "type": "table",
+  },
+]
+`;
