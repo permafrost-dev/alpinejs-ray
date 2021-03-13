@@ -4,6 +4,12 @@ All notable changes to `permafrost-dev/alpinejs-ray` will be documented in this 
 
 ---
 
+## 1.4.0 - 2021-03-13
+
+- add `SpruceRay.spruce()` method to access an object for watching/unwatching Spruce store properties
+
+- add additional tests
+
 ## 1.3.0 - 2021-03-12
 
 - add `bootstrapImports()` helper to reduce boilerplate code when importing for use with a bundler
