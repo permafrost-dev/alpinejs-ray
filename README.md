@@ -156,6 +156,35 @@ Data tracking example _(note that the values change in place)_:
     <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-tracking-spruce-01.gif" alt="data tracking">
 </p>
 
+## Watching Spruce store properties
+
+To watch a Spruce store property and display changes in Ray, use the `$ray().spruce().watch('store.propName')` method:
+
+```html
+<div x-data="componentData()" x-init="init()">
+    <div x-show="$store.mydata.showing">Hi There Ray!</div>
+    <button x-on:click="toggle()">Show/Hide (Ray)</button>
+</div>
+
+<script>      
+window.Spruce.store('mydata', {
+    showing: false,
+});
+  
+function componentData() {
+    return {
+        init() {
+            // changes to mydata.showing will be displayed in Ray
+            this.$ray().spruce().watch('mydata.showing');
+        },
+        toggle() {
+            this.$store.mydata.showing = !this.$store.mydata.showing;
+        },
+    };
+}
+</script>
+```
+
 ## Development setup
 
 - `npm install`
