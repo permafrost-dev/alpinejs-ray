@@ -82,6 +82,7 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
         logComponentsInit: true,
         logCustomEvents: false,
         interceptErrors: true,
+        interceptSpruce: true,
     };
 </script>
 
@@ -93,6 +94,7 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 | `logComponentsInit` | `boolean` | `false` | Send info on component initializations to Ray |
 | `logCustomEvents` | `boolean` | `false` | Send info on custom events to Ray _(events with hyphenated names)_ |
 | `interceptErrors` | `boolean` | `false` | Send javascript errors to Ray instead of the console |
+| `interceptSpruce` | `boolean` | `false` | Display changes to the Spruce state in Ray |
 
 ## Usage
 
@@ -137,7 +139,7 @@ Errors can be automatically sent to Ray. The portion of the code that caused the
 
 ## Tracking Spruce Data Stores
 
-Spruce data store are automatically tracked if Spruce is installed.  Consider the following:
+Spruce data store are automatically tracked if Spruce is installed and the `alpineRayConfig.interceptSpruce` setting is `true`.  Consider the following:
 
 ```js
 window.Spruce.store('mydata', {
