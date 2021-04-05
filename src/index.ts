@@ -1,10 +1,10 @@
 import { ray } from './AlpineRay';
 import AlpineRayPlugin from './AlpineRayMagicMethod';
-import { initializeLibrary } from './lib/initializeLibrary';
+import { LibraryInitializer } from './lib/LibraryInitializer';
 import { getWindow } from './lib/utils';
 
 export { bootstrapImports } from './BootstrapImports';
 
-initializeLibrary([AlpineRayPlugin], getWindow(), ray);
+LibraryInitializer.create([AlpineRayPlugin], getWindow(), ray).init();
 
 export default AlpineRayPlugin;

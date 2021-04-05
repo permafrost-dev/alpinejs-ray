@@ -2,6 +2,7 @@
 
 import { getWindow, checkForAlpine, checkForAxios, highlightHtmlMarkup, filterObjectKeys } from './lib/utils';
 import { ray } from './AlpineRay';
+import { getAlpineRayConfig, AlpineRayConfig } from './AlpineRayConfig';
 
 const AlpineRayMagicMethod = {
     initOnDocumentReady(window: any = null) {
@@ -18,7 +19,7 @@ const AlpineRayMagicMethod = {
         window = window ?? getWindow();
         rayInstance = rayInstance ?? ray;
 
-        const config = window.alpineRayConfig || {};
+        const config = getAlpineRayConfig(window);
         const alpine = window.deferLoadingAlpine || ((alpine: any) => alpine());
 
         window.deferLoadingAlpine = function (callback: CallableFunction) {
@@ -29,7 +30,7 @@ const AlpineRayMagicMethod = {
         };
     },
 
-    initOnComponentInitialized(config: Record<string, unknown>, window: any = null, rayInstance: any = null) {
+    initOnComponentInitialized(config: AlpineRayConfig | Record<string, unknown>, window: any = null, rayInstance: any = null) {
         window.Alpine.onComponentInitialized(el => {
             if (config.logComponentsInit ?? false) {
                 rayInstance.table(

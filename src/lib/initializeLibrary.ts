@@ -1,3 +1,4 @@
+import { getAlpineRayConfig } from '../AlpineRayConfig';
 import { ray } from '../AlpineRay';
 import { addErrorEventHandlers } from '../ErrorHandlers';
 import { getWindow } from '../lib/utils';
@@ -25,13 +26,21 @@ export const initializeErrorEventHandlers = (window: any = null, rayInstance: an
     window = window ?? getWindow();
     rayInstance = rayInstance ?? ray();
 
-    addErrorEventHandlers(window, rayInstance);
+    const config = getAlpineRayConfig(window);
+
+    if (config.interceptErrors) {
+        addErrorEventHandlers(window, rayInstance);
+    }
 };
 
 export const initializeSpruce = (window: any = null, rayInstance: any = null) => {
     window = window ?? getWindow();
     rayInstance = rayInstance ?? ray();
 
-    // conditional Spruce proxy/monitor
-    new SpruceProxy(window, rayInstance).init();
+    const config = getAlpineRayConfig(window);
+
+    if (config.interceptSpruce) {
+        // conditional Spruce proxy/monitor
+        new SpruceProxy(window, rayInstance).init();
+    }
 };

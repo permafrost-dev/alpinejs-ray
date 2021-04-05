@@ -43,6 +43,8 @@ export class SpruceProxy {
     }
 
     public interceptStoreCreation() {
+        console.log('STARTED interceptStoreCreation');
+
         const displayTracking = this.displayTracking;
 
         const proxyHandler: ProxyHandler<any> = {
@@ -68,11 +70,15 @@ export class SpruceProxy {
             },
         };
 
+        for (const name in this.window.Spruce.stores) {
+            this.window.Spruce.stores[name] = new Proxy(this.window.Spruce.stores[name], proxyHandler);
+        }
+
         this.window.Spruce.stores = new Proxy(this.window.Spruce.stores, proxyHandler);
     }
 
     public displayTracking(key: string, action: string, value: any) {
-        if (typeof trackRays[<string>key] === 'undefined') {
+        if (typeof trackRays[key] === 'undefined') {
             trackRays[<string>key] = this?.rayInstance() ?? ray();
         }
 

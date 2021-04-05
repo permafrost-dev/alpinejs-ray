@@ -48,9 +48,9 @@ class FakeSpruce {
     }
 }
 
-const fakeRayFunc = (...args: any[]) => {
-    return new FakeRay().send('log', ...args);
-};
+// const fakeRayFunc = (...args: any[]) => {
+//     return new FakeRay().send('log', ...args);
+// };
 
 beforeEach(() => {
     testState = {

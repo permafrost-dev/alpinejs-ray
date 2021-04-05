@@ -40,6 +40,8 @@ beforeEach(() => {
         alpineRayConfig: {
             logComponentsInit: false,
             logCustomEvents: false,
+            interceptErrors: true,
+            interceptSpruce: true,
         },
         Spruce: {
             store(name: string) {
@@ -105,6 +107,8 @@ it('initializes the library plugins', () => {
 });
 
 it('initializes the error event handlers', () => {
+    win.alpineRayConfig.interceptErrors = true;
+
     initializeErrorEventHandlers(win, rayInstance);
 
     expect(testState.windowEventListeners.length).toStrictEqual(2);
@@ -112,12 +116,15 @@ it('initializes the error event handlers', () => {
 });
 
 // it('initializes the Spruce proxy', () => {
-//     win.Spruce = new FakeSpruce();
+//     //win.Spruce = new FakeSpruce();
 
 //     initializeSpruce(win, rayInstance);
 
-//     console.debug(win.Spruce);
-//     const temp = win.Spruce.stores.mydata.one; // eslint-disable-line no-unused-vars
+//     //const temp = win.Spruce.stores.mydata; // eslint-disable-line no-unused-vars
+
+//     console.log(typeof win.Spruce.stores.mydata.one);
+
+//     win.Spruce.stores.mydata = { one: 3 };
 
 //     expect(testState.rayPayloadHistory).toMatchSnapshot();
 // });

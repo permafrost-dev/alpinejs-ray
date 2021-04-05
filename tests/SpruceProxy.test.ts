@@ -54,6 +54,7 @@ beforeEach(() => {
         },
         axios: {},
         alpineRayConfig: {
+            interceptSpruce: false,
             logComponentsInit: false,
             logCustomEvents: false,
         },
