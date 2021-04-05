@@ -12,13 +12,13 @@ const options = {
 export default {
     input: `src/index.ts`,
     output: {
-            file: `dist/standalone.min.js`,
-            format: 'umd',
-            name: 'AlpineRay',
-            sourcemap: options.sourceMapsEnabled,
-            exports: 'named',
-            plugins: [terser()],
-            globals: { 'axios': 'axios' },
+        file: `dist/standalone.min.js`,
+        format: 'umd',
+        name: 'AlpineRay',
+        sourcemap: options.sourceMapsEnabled,
+        exports: 'named',
+        plugins: [terser()],
+        globals: { axios: 'axios' },
     },
     plugins: [
         replace({

@@ -167,7 +167,9 @@ export function findWireID(wireId, window: any = null) {
             if (wire.__instance) {
                 return 'livewire:' + wire.__instance.fingerprint.name;
             }
-        } catch (e) {}
+        } catch (e) {
+            //
+        }
     }
 }
 
