@@ -33,7 +33,7 @@
         "build:all": "concurrently npm:build:module npm:build:standalone",
         "preversion": "npm run test",
         "postversion": "npm run build:all",
-        "prepare": "husky install"
+        "prepare": "is-ci || husky install"
     },
     "lint-staged": {
         "*.{js,ts}": [
@@ -75,6 +75,7 @@
         "typescript": "^4.1.3"
     },
     "dependencies": {
+        "is-ci": "^3.0.0",
         "node-ray": "^1.10.0"
     }
 }
