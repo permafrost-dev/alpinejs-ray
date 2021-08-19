@@ -58,7 +58,7 @@ beforeEach(() => {
         },
         Alpine: {
             version: '5.0.0',
-            addMagicProperty(name: string, callback: CallableFunction) {
+            magic(name: string, callback: CallableFunction) {
                 testState.alpineMagicProperties.push({ name, callback });
             },
             onComponentInitialized(callback) {

@@ -86,7 +86,7 @@ const AlpineRayMagicMethod = {
         checkForAxios(window);
         checkForAlpine(window);
 
-        window.Alpine.addMagicProperty('ray', () => rayInstance);
+        window.Alpine.magic('ray', () => rayInstance);
     },
 };
 
