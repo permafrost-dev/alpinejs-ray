@@ -21,47 +21,44 @@ This package can be installed into any project using alpine.js to send messages 
 
 ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png)
 
-## Installation via CDN
+## Installation
+### Installation via CDN (recommended)
 
-The preferred way to use this package is to load it via a CDN.  You'll need to load the `axios` library as well:
+The preferred way to use this package is to load it via CDN, which must be done _before_ loading Alpine.  
+
+You must also load the `axios` library prior to loading `alpinejs-ray` and `Alpine`:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/axios@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@2/dist/standalone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" defer>
 ```
 
-## Installation with package bundlers
+### Installation via Module Import
 
-Install with npm:
+First, install `alpinejs-ray` and its primary dependency, `node-ray`, with npm _(or your preferred package manager)_:
 
 ```bash
-npm install alpinejs-ray
+npm install alpinejs-ray node-ray
 ```
-
-or yarn:
-
-```bash
-yarn add alpinejs-ray
-```
-
-#### Importing the plugin
 
 Although not the recommended way, you can import package normally, along with `node-ray/web`, `alpinejs` and `axios`:
 
 ```js 
-import { Ray, ray } from 'node-ray/web';
 import Alpine from 'alpinejs';
 import AlpineRayPlugin from 'alpinejs-ray';
+import { Ray, ray } from 'node-ray/web';
 
 window.ray = ray;
 window.Ray = Ray;
+
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Alpine = Alpine;
-window.AlpineRayPlugin = AlpineRayPlugin;
-window.AlpineRayPlugin.init();
-window.AlpineRayPlugin.start();
+
+Alpine.plugin(AlpineRayPlugin);
+Alpine.start();
 ```
 
 To help reduce this large amount of boilerplate code, you can use the bootstrap helper function:
@@ -74,7 +71,7 @@ const AlpineRayPlugin = bootstrapImports(Alpine);
 AlpineRayPlugin.start();
 ```
 
-### Configuration options
+## Configuration
 
 To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on the `window` object before loading `alpinejs-ray`:
 
@@ -98,7 +95,7 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 
 ## Usage
 
-Once the plugin is installed, you may access the `$ray()` method within your components.
+Once the plugin is installed, you may access the `$ray()` magic method within your components.
 
 See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a full list of available methods.
 
@@ -109,7 +106,7 @@ See the [node-ray reference](https://github.com/permafrost-dev/node-ray#referenc
 ```
 
 ```html
-<div x-data="onClickData()" x-init="init()">
+<div x-data="onClickData()">
     <div x-show="show">Hi There Ray!</div>
 
     <button x-on:click="toggle()">Show/Hide (Ray)</button>
@@ -190,19 +187,33 @@ function componentData() {
 </script>
 ```
 
-## Development setup
+## Development Setup
 
-- `npm install`
-- `npm run test`
-- `npm run build:all`
+For development of `alpinejs-ray`, clone the repository and install dependencies via npm:
+
+```bash
+npm install
+```
+
+Next, run the test suite:
+
+```bash
+npm run test
+```
+
+Finally, build all libraries; they will be output to the `dist` directory.
+
+```bash
+npm run build:all
+```
 
 ## Testing
 
 `alpinejs-ray` uses Jest for unit tests.  To run the test suite:
 
-`npm run test`
-
----
+```bash
+npm run test
+```
 
 ## Changelog
 
