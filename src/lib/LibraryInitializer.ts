@@ -1,4 +1,3 @@
-import { SpruceProxy } from '@/SpruceProxy';
 import { addErrorEventHandlers } from '../ErrorHandlers';
 import { getAlpineRayConfig, AlpineRayConfig } from '@/AlpineRayConfig';
 import { getWindow } from './utils';
@@ -25,8 +24,7 @@ export class LibraryInitializer {
     }
 
     public init() {
-        return this.initPlugins().initErrorHandlers()
-            .initSpruce();
+        return this.initPlugins().initErrorHandlers();
     }
 
     public initPlugins() {
@@ -40,14 +38,6 @@ export class LibraryInitializer {
     public initErrorHandlers() {
         if (this.config.interceptErrors) {
             addErrorEventHandlers(this.window, this.rayInstance);
-        }
-
-        return this;
-    }
-
-    public initSpruce() {
-        if (this.config.interceptSpruce) {
-            new SpruceProxy(this.window, this.rayInstance).init();
         }
 
         return this;

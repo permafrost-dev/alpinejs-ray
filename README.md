@@ -17,6 +17,8 @@
 
 This package can be installed into any project using alpine.js to send messages to the [Ray app](https://myray.app).
 
+> Note: use version `^1.4` of this package for Alpine v2, and `^2.0` for Alpine v3.
+
 ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png)
 
 ## Installation via CDN
@@ -82,7 +84,6 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
         logComponentsInit: true,
         logCustomEvents: false,
         interceptErrors: true,
-        interceptSpruce: true,
     };
 </script>
 
@@ -94,7 +95,6 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 | `logComponentsInit` | `boolean` | `false` | Send info on component initializations to Ray |
 | `logCustomEvents` | `boolean` | `false` | Send info on custom events to Ray _(events with hyphenated names)_ |
 | `interceptErrors` | `boolean` | `false` | Send javascript errors to Ray instead of the console |
-| `interceptSpruce` | `boolean` | `false` | Display changes to the Spruce state in Ray |
 
 ## Usage
 
