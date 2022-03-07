@@ -10,9 +10,9 @@ const options = {
 };
 
 export default {
-    input: `src/index.ts`,
+    input: `src/index-standalone.ts`,
     output: {
-        file: `dist/standalone.min.js`,
+        file: `dist/standalone-test.min.js`,
         format: 'umd',
         name: 'AlpineRay',
         sourcemap: options.sourceMapsEnabled,
@@ -23,8 +23,8 @@ export default {
     plugins: [
         replace({
             values: {
-                __BUILD_DATE__: () => new Date().toISOString(),
-                __BUILD_VERSION__: () => require('./package.json').version,
+                __BUILD_DATE__: () => JSON.stringify(new Date().toISOString()),
+                __BUILD_VERSION__: () => JSON.stringify(require('./package.json').version),
             },
             preventAssignment: true,
         }),
@@ -33,6 +33,6 @@ export default {
         typescript(),
     ],
     external: [
-        'axios', //'node-ray',
+        // 'axios',
     ],
 };
