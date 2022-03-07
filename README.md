@@ -1,8 +1,5 @@
 <p align="center">
-    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-ray-logo-600x300.png" alt="alpinejs-ray" height="200" style="block">
-    <br><br>
-    <code style="font-size:3.0rem;"><strong>alpinejs-ray</strong></code>
-    <br><br>
+    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-ray-logo-600x300-transparent.png" alt="alpinejs-ray" height="200" style="display: block; height: 200px;">
 </p>
 
 <p align="center">
@@ -15,11 +12,11 @@
 
 ## Debug your Alpine.js code with Ray to fix problems faster
 
-This package can be installed into any project using alpine.js to send messages to the [Ray app](https://myray.app).
+This package can be installed into any project using [Alpine.js](https://github.com/alpinejs/alpine) to send messages to the [Ray app](https://myray.app).
 
 > Note: use version `^1.4` of this package for Alpine v2, and `^2.0` for Alpine v3.
 
-![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png)
+<!-- ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png) -->
 
 ## Installation
 ### Installation via CDN (recommended)
@@ -60,17 +57,6 @@ window.Alpine = Alpine;
 Alpine.plugin(AlpineRayPlugin);
 Alpine.start();
 ```
-
-To help reduce this large amount of boilerplate code, you can use the bootstrap helper function:
-
-```js
-import Alpine from 'alpinejs';
-import { bootstrapImports } from 'alpinejs-ray';
-
-const AlpineRayPlugin = bootstrapImports(Alpine);
-AlpineRayPlugin.start();
-```
-
 ## Configuration
 
 To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on the `window` object before loading `alpinejs-ray`:
