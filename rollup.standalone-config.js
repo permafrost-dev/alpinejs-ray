@@ -11,15 +11,28 @@ const options = {
 
 export default {
     input: `src/index-standalone.ts`,
-    output: {
-        file: `dist/standalone-test.min.js`,
-        format: 'umd',
-        name: 'AlpineRay',
-        sourcemap: options.sourceMapsEnabled,
-        exports: 'named',
-        plugins: [terser()],
-        globals: { axios: 'axios' },
-    },
+    output: [
+        {
+            file: `dist/standalone-test.js`,
+            format: 'umd',
+            name: 'AlpineRay',
+            sourcemap: options.sourceMapsEnabled,
+            exports: 'named',
+            plugins: [],
+            globals: {
+                axios: 'axios',
+            },
+        },
+        {
+            file: `dist/standalone-test.min.js`,
+            format: 'umd',
+            name: 'AlpineRay',
+            sourcemap: options.sourceMapsEnabled,
+            exports: 'named',
+            plugins: [terser()],
+            globals: { axios: 'axios' },
+        },
+    ],
     plugins: [
         replace({
             values: {
@@ -32,7 +45,5 @@ export default {
         commonjs(),
         typescript(),
     ],
-    external: [
-        // 'axios',
-    ],
+    external: ['axios'],
 };
