@@ -5,5 +5,10 @@ export default function (Alpine: any, window: any = null) {
     checkForAxios(window ?? getWindow());
 
     //Alpine.directive('ray', () => {});
-    Alpine.magic('ray', (...params: any) => ray(...params));
+    Alpine.magic(
+        'ray',
+        () =>
+            (...params: any) =>
+                ray(...params),
+    );
 }
