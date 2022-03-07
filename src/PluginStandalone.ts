@@ -1,5 +1,5 @@
-import { getWindow } from './lib/utils';
-import pluginCallback from './Plugin';
+import { getWindow } from '@/lib/utils';
+import pluginCallback from '@/Plugin';
 
 const win: any = getWindow();
 
