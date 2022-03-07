@@ -65,19 +65,20 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 <script>
     window.alpineRayConfig = {
         logComponentsInit: true,
-        logCustomEvents: false,
-        interceptErrors: true,
+        logErrors: true,
+        logEvents: ['abc'],
     };
 </script>
 
-<!-- load axios and alpinejs-ray scripts here -->
+<!-- load axios and alpinejs-ray -->
 ```
 
-| Name | Type | Default | Description |
+| Name | Type(s) | Default | Description |
 | --- | --- | --- | --- |
 | `logComponentsInit` | `boolean` | `false` | Send info on component initializations to Ray |
-| `logCustomEvents` | `boolean` | `false` | Send info on custom events to Ray _(events with hyphenated names)_ |
-| `interceptErrors` | `boolean` | `false` | Send javascript errors to Ray instead of the console |
+| `logErrors` | `boolean` | `false` | Send javascript errors to Ray instead of the console |
+| `logEvents` | `boolean, array` | `false` | Send specified custom events to Ray, or `false` to disable |
+
 
 ## Usage
 
