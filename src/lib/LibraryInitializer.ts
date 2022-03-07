@@ -25,7 +25,8 @@ export class LibraryInitializer {
     }
 
     public init() {
-        return this.initPlugins().initErrorHandlers().initSpruce();
+        return this.initPlugins().initErrorHandlers()
+            .initSpruce();
     }
 
     public initPlugins() {
