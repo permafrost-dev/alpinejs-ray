@@ -87,7 +87,7 @@ it('throws an error during start() if AlpineJS is not installed', () => {
     let err = null;
     try {
         AlpineRayMagicMethod.start({ axios: {} }, rayInstance);
-    } catch (e) {
+    } catch (e: any) {
         err = e;
     }
 
@@ -99,7 +99,7 @@ it('throws an error during start() if axios is not installed', () => {
     try {
         delete win['axios'];
         AlpineRayMagicMethod.start(win, rayInstance);
-    } catch (e) {
+    } catch (e: any) {
         err = e;
     }
 
