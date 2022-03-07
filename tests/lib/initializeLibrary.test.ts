@@ -43,19 +43,6 @@ beforeEach(() => {
             interceptErrors: true,
             interceptSpruce: true,
         },
-        Spruce: {
-            store(name: string) {
-                if (typeof this.stores[name] === 'undefined') {
-                    this.stores[name] = {};
-                }
-                return this.stores[name];
-            },
-            stores: {
-                mydata: {
-                    one: 1,
-                },
-            },
-        },
         Alpine: {
             version: '5.0.0',
             addMagicProperty(name: string, callback: CallableFunction) {
@@ -114,17 +101,3 @@ it('initializes the error event handlers', () => {
     expect(testState.windowEventListeners.length).toStrictEqual(2);
     expect(testState.windowEventListeners.map(el => el.name)).toStrictEqual(['error', 'unhandledrejection']);
 });
-
-// it('initializes the Spruce proxy', () => {
-//     //win.Spruce = new FakeSpruce();
-
-//     initializeSpruce(win, rayInstance);
-
-//     //const temp = win.Spruce.stores.mydata; // eslint-disable-line no-unused-vars
-
-//     console.log(typeof win.Spruce.stores.mydata.one);
-
-//     win.Spruce.stores.mydata = { one: 3 };
-
-//     expect(testState.rayPayloadHistory).toMatchSnapshot();
-// });
