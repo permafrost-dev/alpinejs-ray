@@ -181,13 +181,7 @@ For development of `alpinejs-ray`, clone the repository and install dependencies
 npm install
 ```
 
-Next, run the test suite:
-
-```bash
-npm run test
-```
-
-Finally, build all libraries; they will be output to the `dist` directory.
+Finally, build all library files; they will be output to the `dist` directory.
 
 ```bash
 npm run build:all
