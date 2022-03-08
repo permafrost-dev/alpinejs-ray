@@ -33,21 +33,17 @@ You must also load the `axios` library prior to loading `alpinejs-ray` and `Alpi
 
 ### Installation via Module Import
 
-First, install `alpinejs-ray` and its primary dependency, `node-ray`, with npm _(or your preferred package manager)_:
+First, install `alpinejs-ray` with npm _(or your preferred package manager)_:
 
 ```bash
-npm install alpinejs-ray node-ray
+npm install alpinejs-ray
 ```
 
-Although not the recommended way, you can import package normally, along with `node-ray/web`, `alpinejs` and `axios`:
+Although not the recommended way, you can import package normally, along with `alpinejs` and `axios`:
 
 ```js 
 import Alpine from 'alpinejs';
 import AlpineRayPlugin from 'alpinejs-ray';
-import { Ray, ray } from 'node-ray/web';
-
-window.ray = ray;
-window.Ray = Ray;
 
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -85,6 +81,18 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 Once the plugin is installed, you may access the `$ray()` magic method within your components.
 
 See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a full list of available methods.
+
+### Directives
+
+You may use the `x-ray` directive within your html markup to easily send data to Ray.  The value of the directive must be a valid javascript expression.
+
+```html
+<div x-data>
+    <!-- sends 'hello world' and the value of the 'mystore.somevalue' Alpine store to Ray -->
+    <div x-ray="'hello world'"></div>
+    <div x-ray="$store.mystore.somevalue"></div>
+</div>
+```
 
 ## Example Components
 
