@@ -15,9 +15,9 @@ export default {
         {
             file: `dist/standalone-test.js`,
             format: 'umd',
-            name: 'AlpineRay',
+            //name: 'AlpineRay',
             sourcemap: options.sourceMapsEnabled,
-            exports: 'named',
+            //exports: 'named',
             plugins: [],
             globals: {
                 axios: 'axios',
@@ -36,8 +36,8 @@ export default {
     plugins: [
         replace({
             values: {
-                __BUILD_DATE__: () => JSON.stringify(new Date().toISOString()),
-                __BUILD_VERSION__: () => JSON.stringify(require('./package.json').version),
+                __BUILD_DATE__: () => new Date().toISOString(),
+                __BUILD_VERSION__: () => require('./package.json').version,
             },
             preventAssignment: true,
         }),

@@ -121,12 +121,38 @@ const AlpineRayMagicMethod = {
 
         checkForAxios(window);
 
-        Alpine.directive('ray', (_el, { expression }, { evaluateLater, effect }) => {
+        Alpine.directive('ray', (el, { expression }, { evaluateLater, effect }) => {
             const result = evaluateLater(expression);
 
             effect(() => {
                 result(data => {
-                    ray(data);
+                    const tableData = {
+                        'element-id': null,
+                        'element-ref': null,
+                        'element-name': null,
+                        'element-tag': el.tagName,
+                        data,
+                    };
+
+                    if (el.getAttribute('id')) {
+                        tableData['element-id'] = el.getAttribute('id');
+                    }
+
+                    if (el.getAttribute('name')) {
+                        tableData['element-name'] = el.getAttribute('name');
+                    }
+
+                    if (el.getAttribute('x-ref')) {
+                        tableData['element-ref'] = el.getAttribute('x-ref');
+                    }
+
+                    for (const name in tableData) {
+                        if (name !== 'data' && tableData[name] === null) {
+                            delete tableData[name];
+                        }
+                    }
+
+                    ray().table(tableData, 'x-ray');
                 });
             });
         });
