@@ -16,5 +16,6 @@ export function getAlpineRayConfig(window: any = null): AlpineRayConfig {
         interceptErrors: config?.interceptErrors || false,
         logComponentsInit: config?.logComponentsInit || false,
         logCustomEvents: config?.logCustomEvents || false,
+        logEvents: config?.logEvents || false,
     };
 }
