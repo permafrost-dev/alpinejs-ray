@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 
 export function getWindow() {
-    // @ts-ignore
     return <any>globalThis;
 }
 
@@ -43,8 +42,8 @@ export const checkForAlpine = (window: any = null) => {
         throw new Error('[alpinejs-ray] Alpine is required for alpinejs-ray to function correctly.');
     }
 
-    if (!win.Alpine.version || !isValidVersion('2.5.0', win.Alpine.version)) {
-        throw new Error('Invalid Alpine version. Please use Alpine version 2.5.0 or above');
+    if (!win.Alpine.version || !isValidVersion('3.0.0', win.Alpine.version)) {
+        throw new Error('Invalid Alpine version. Please use Alpine version 3.0.0 or above');
     }
 };
 
@@ -198,7 +197,7 @@ export function findParentComponent(el: any) {
     let counter = 0;
     let e = el;
 
-    while (counter < 10) {
+    while (counter < 30) {
         counter++;
         e = e.parentElement;
 
