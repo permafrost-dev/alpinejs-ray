@@ -1,6 +1,6 @@
 import { ray } from '@/AlpineRay';
 import { AlpineRayConfig, getAlpineRayConfig } from '@/AlpineRayConfig';
-import { checkForAxios, getWindow } from '@/lib/utils';
+import { checkForAxios, encodeHtmlEntities, filterObjectKeys, findParentComponent, getWindow, highlightHtmlMarkup } from '@/lib/utils';
 
 const AlpineRayMagicMethod = {
     initCustomEventListeners(config: AlpineRayConfig | Record<string, any> | null = null, window: any = null, rayInstance: any = null) {
@@ -40,21 +40,98 @@ const AlpineRayMagicMethod = {
         }
     },
 
+    initErrorHandlers(config: AlpineRayConfig | Record<string, any> | null = null, window: any = null, rayInstance: any = null) {
+        window = window ?? getWindow();
+        config = config ?? getAlpineRayConfig(window);
+        rayInstance = rayInstance ?? ray;
+
+        if (!(config.interceptErrors || false)) {
+            return this;
+        }
+
+        window.addEventListener('error', (errorEvent: any) => {
+            if (errorEvent.error) {
+                const { el, expression } = errorEvent.error;
+                const parentComponent = findParentComponent(el);
+
+                // component and parent components are not alpine components, so do nothing
+                if (!parentComponent) {
+                    return;
+                }
+
+                // highlight the expression that triggered the error
+                const parentComponentOuterHTML = highlightHtmlMarkup(parentComponent.outerHTML).replace(
+                    encodeHtmlEntities(expression),
+                    `<span class="text-red-700 bg-red-300 p-1">${encodeHtmlEntities(expression)}</span>`,
+                );
+
+                const componentData = parentComponent.__x ?? { $data: {} };
+
+                rayInstance.table(
+                    {
+                        errorType: `alpine.js error`,
+                        errorReason: errorEvent.error.toString(),
+                        expression: `<code>${expression}</code>`,
+                        srcElement: el.tagName.toLowerCase(),
+                        componentHtml: `<code>${parentComponentOuterHTML}</code>`,
+                        componentData: filterObjectKeys(componentData.$data, ['$el', '$watch', '$refs', '$nextTick']),
+                    },
+                    'ERROR',
+                );
+            }
+        });
+
+        window.addEventListener('unhandledrejection', (rejectionEvent: any) => {
+            if (rejectionEvent.reason) {
+                const { el, expression } = rejectionEvent.reason;
+                const parentComponent = findParentComponent(el);
+
+                // component and parent components are not alpine components, so do nothing
+                if (!parentComponent) {
+                    return;
+                }
+
+                // highlight the expression that triggered the error
+                const parentComponentOuterHTML = highlightHtmlMarkup(parentComponent.outerHTML).replace(
+                    encodeHtmlEntities(expression),
+                    `<span class="text-red-700 bg-red-300 p-1">${encodeHtmlEntities(expression)}</span>`,
+                );
+
+                const componentData = parentComponent.__x ?? { $data: {} };
+
+                rayInstance.table(
+                    {
+                        errorType: `alpine.js ${rejectionEvent.type}`,
+                        errorReason: rejectionEvent.reason.toString(),
+                        expression: `<code>${expression}</code>`,
+                        srcElement: el.tagName.toLowerCase(),
+                        componentHtml: `<code>${parentComponentOuterHTML}</code>`,
+                        componentData: filterObjectKeys(componentData.$data, ['$el', '$watch', '$refs', '$nextTick']),
+                    },
+                    'ERROR',
+                );
+            }
+        });
+
+        return this;
+    },
+
     init(config: AlpineRayConfig | Record<string, any> | null = null, window: any = null, rayInstance: any = null) {
         window = window ?? getWindow();
         config = config ?? getAlpineRayConfig(window);
         rayInstance = rayInstance ?? ray;
 
-        AlpineRayMagicMethod.initCustomEventListeners(config, window, rayInstance);
+        this.initCustomEventListeners(config, window, rayInstance);
+        this.initErrorHandlers(config, window, rayInstance);
 
-        return AlpineRayMagicMethod;
+        return this;
     },
 
     register(Alpine: any = null, window: any = null) {
         window = window ?? getWindow();
         Alpine = Alpine ?? window.Alpine;
 
-        checkForAxios(window ?? getWindow());
+        checkForAxios(window);
 
         //Alpine.directive('ray', () => {});
 
