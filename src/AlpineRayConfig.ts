@@ -1,4 +1,4 @@
-import { getWindow } from './lib/utils';
+import { getWindow } from '@/lib/utils';
 
 export interface AlpineRayConfig {
     interceptErrors?: boolean;
