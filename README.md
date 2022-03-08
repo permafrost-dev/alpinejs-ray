@@ -121,50 +121,37 @@ Errors can be automatically sent to Ray. The portion of the code that caused the
 
 ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/error-display.png)
 
-## Tracking Spruce Data Stores
+## Tracking Data Stores
 
-Spruce data store are automatically tracked if Spruce is installed and the `alpineRayConfig.interceptSpruce` setting is `true`.  Consider the following:
+You may automatically send Alpine stores to Ray whenever the store data is updated.  Consider the following:
 
 ```js
-window.Spruce.store('mydata', {
+window.Alpine.store('mydata', {
     showing: false,
-    toggle() {
-        this.showing = !this.showing;
-        ray().html('<strong>[spruce]</strong> showing = ' + this.showing);
-    }
 });
  
 setInterval( () => {
-    window.Spruce.stores.mydata.showing = !window.Spruce.stores.mydata.showing;
+    window.Alpine.store('mydata').showing = !window.Alpine.store('mydata').showing;
 }, 3000);
 ```
 
-Data tracking example _(note that the values change in place)_:
-
-<p align="center">
-    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-tracking-spruce-01.gif" alt="data tracking">
-</p>
-
-## Watching Spruce store properties
-
-To watch a Spruce store property and display changes in Ray, use the `$ray().spruce().watch('store.propName')` method:
+To watch the store and display changes in Ray, use the `$ray().watchStore('name')` method:
 
 ```html
-<div x-data="componentData()" x-init="init()">
+<div x-data="componentData()">
     <div x-show="$store.mydata.showing">Hi There Ray!</div>
     <button x-on:click="toggle()">Show/Hide (Ray)</button>
 </div>
 
 <script>      
-window.Spruce.store('mydata', {
+window.Alpine.store('mydata', {
     showing: false,
 });
   
 function componentData() {
     return {
         init() {
-            // changes to mydata.showing will be displayed in Ray
-            this.$ray().spruce().watch('mydata.showing');
+            this.$ray().watchStore('mydata');
         },
         toggle() {
             this.$store.mydata.showing = !this.$store.mydata.showing;
