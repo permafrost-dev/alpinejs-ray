@@ -4,6 +4,7 @@ export interface AlpineRayConfig {
     interceptErrors?: boolean;
     logComponentsInit?: boolean;
     logCustomEvents?: boolean;
+    logEvents?: boolean | string[];
 }
 
 export function getAlpineRayConfig(window: any = null): AlpineRayConfig {
