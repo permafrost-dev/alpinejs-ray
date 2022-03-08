@@ -35,7 +35,10 @@ comment:
 ignore:
   - "build/"
   - "dist/"
+  - "src/index.ts"
+  - "src/index-standalone.ts"
   - ".eslintrc.js"
   - "jest.config.js"
+  - "prettier.config.js"
   - "rollup.config.js"
   - "rollup.standalone-config.js"
