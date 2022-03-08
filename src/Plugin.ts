@@ -1,14 +1,5 @@
-import { ray } from '@/AlpineRay';
-import { checkForAxios, getWindow } from '@/lib/utils';
+import AlpineRayMagicMethod from '@/AlpineRayMagicMethod';
 
 export default function (Alpine: any, window: any = null) {
-    checkForAxios(window ?? getWindow());
-
-    //Alpine.directive('ray', () => {});
-    Alpine.magic(
-        'ray',
-        () =>
-            (...params: any) =>
-                ray(...params),
-    );
+    AlpineRayMagicMethod.init(null, window).register(Alpine, window);
 }
