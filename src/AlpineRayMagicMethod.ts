@@ -1,6 +1,21 @@
 import { ray } from '@/AlpineRay';
 import { AlpineRayConfig, getAlpineRayConfig } from '@/AlpineRayConfig';
 import { checkForAxios, encodeHtmlEntities, filterObjectKeys, findParentComponent, getWindow, highlightHtmlMarkup } from '@/lib/utils';
+import minimatch from 'minimatch';
+
+function getMatches(patterns: string[], values: string[]) {
+    const result: string[] = [];
+
+    for (const pattern of patterns) {
+        for (const value of values) {
+            if (minimatch(value, pattern)) {
+                result.push(value);
+            }
+        }
+    }
+
+    return result;
+}
 
 const AlpineRayMagicMethod = {
     initCustomEventListeners(config: AlpineRayConfig | Record<string, any> | null = null, window: any = null, rayInstance: any = null) {
@@ -16,7 +31,7 @@ const AlpineRayMagicMethod = {
                 eventNames.push(match[1]);
             }
 
-            eventNames.forEach(name => {
+            getMatches(config.logEvents, eventNames).forEach(name => {
                 if (!config?.logEvents.includes(name) && !config?.logEvents.includes('*')) {
                     return;
                 }
@@ -49,9 +64,11 @@ const AlpineRayMagicMethod = {
             return this;
         }
 
-        window.addEventListener('error', (errorEvent: any) => {
-            if (errorEvent.error) {
-                const { el, expression } = errorEvent.error;
+        const errorHandlerCallback = (errorEvent: any) => {
+            if (errorEvent.error || errorEvent.reason) {
+                const data = errorEvent.reason || errorEvent.error;
+
+                const { el, expression } = data;
                 const parentComponent = findParentComponent(el);
 
                 // component and parent components are not alpine components, so do nothing
@@ -70,7 +87,7 @@ const AlpineRayMagicMethod = {
                 rayInstance.table(
                     {
                         errorType: `alpine.js error`,
-                        errorReason: errorEvent.error.toString(),
+                        errorReason: data.toString(),
                         expression: `<code>${expression}</code>`,
                         srcElement: el.tagName.toLowerCase(),
                         componentHtml: `<code>${parentComponentOuterHTML}</code>`,
@@ -79,39 +96,10 @@ const AlpineRayMagicMethod = {
                     'ERROR',
                 );
             }
-        });
+        };
 
-        window.addEventListener('unhandledrejection', (rejectionEvent: any) => {
-            if (rejectionEvent.reason) {
-                const { el, expression } = rejectionEvent.reason;
-                const parentComponent = findParentComponent(el);
-
-                // component and parent components are not alpine components, so do nothing
-                if (!parentComponent) {
-                    return;
-                }
-
-                // highlight the expression that triggered the error
-                const parentComponentOuterHTML = highlightHtmlMarkup(parentComponent.outerHTML).replace(
-                    encodeHtmlEntities(expression),
-                    `<span class="text-red-700 bg-red-300 p-1">${encodeHtmlEntities(expression)}</span>`,
-                );
-
-                const componentData = parentComponent.__x ?? { $data: {} };
-
-                rayInstance.table(
-                    {
-                        errorType: `alpine.js ${rejectionEvent.type}`,
-                        errorReason: rejectionEvent.reason.toString(),
-                        expression: `<code>${expression}</code>`,
-                        srcElement: el.tagName.toLowerCase(),
-                        componentHtml: `<code>${parentComponentOuterHTML}</code>`,
-                        componentData: filterObjectKeys(componentData.$data, ['$el', '$watch', '$refs', '$nextTick']),
-                    },
-                    'ERROR',
-                );
-            }
-        });
+        window.addEventListener('error', errorHandlerCallback);
+        window.addEventListener('unhandledrejection', errorHandlerCallback);
 
         return this;
     },
@@ -133,8 +121,14 @@ const AlpineRayMagicMethod = {
 
         checkForAxios(window);
 
-        Alpine.directive('ray', (_el, { expression }, { evaluate }) => {
-            ray(evaluate(expression));
+        Alpine.directive('ray', (_el, { expression }, { evaluateLater, effect }) => {
+            const result = evaluateLater(expression);
+
+            effect(() => {
+                result(data => {
+                    ray(data);
+                });
+            });
         });
 
         const rayCallback = (...params: any) => ray(...params);
