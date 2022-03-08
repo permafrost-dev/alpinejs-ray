@@ -133,14 +133,13 @@ const AlpineRayMagicMethod = {
 
         checkForAxios(window);
 
-        //Alpine.directive('ray', () => {});
+        Alpine.directive('ray', (_el, { expression }, { evaluate }) => {
+            ray(evaluate(expression));
+        });
 
-        Alpine.magic(
-            'ray',
-            () =>
-                (...params: any) =>
-                    ray(...params),
-        );
+        const rayCallback = (...params: any) => ray(...params);
+
+        Alpine.magic('ray', () => rayCallback);
     },
 };
 
