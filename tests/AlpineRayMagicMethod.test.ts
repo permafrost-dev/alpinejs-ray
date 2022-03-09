@@ -84,7 +84,7 @@ beforeEach(() => {
 });
 
 it('starts the magic method class', () => {
-    AlpineRayMagicMethod.init(null, { axios: {} }, rayInstance).register(null, win);
+    AlpineRayMagicMethod.init(null, { axios: {} }, rayInstance).register(null, win, rayInstance);
 
     expect(testState.alpineMagicProperties.length).toBe(1);
     expect(testState.alpineMagicProperties[0].name).toBe('ray');

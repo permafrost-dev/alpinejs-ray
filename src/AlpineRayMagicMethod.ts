@@ -18,6 +18,9 @@ function getMatches(patterns: string[], values: string[]) {
 }
 
 const AlpineRayMagicMethod = {
+    trackRays: {},
+    trackCounters: {},
+
     initCustomEventListeners(config: AlpineRayConfig | Record<string, any> | null = null, window: any = null, rayInstance: any = null) {
         config = config ?? getAlpineRayConfig(window);
 
@@ -115,9 +118,10 @@ const AlpineRayMagicMethod = {
         return this;
     },
 
-    register(Alpine: any = null, window: any = null) {
+    register(Alpine: any = null, window: any = null, rayInstance: any = null) {
         window = window ?? getWindow();
         Alpine = Alpine ?? window.Alpine;
+        rayInstance = rayInstance ?? ray;
 
         checkForAxios(window);
 
@@ -127,23 +131,35 @@ const AlpineRayMagicMethod = {
             effect(() => {
                 result(data => {
                     const tableData = {
+                        'element-tag': el.tagName.toLowerCase(),
                         'element-id': null,
                         'element-ref': null,
                         'element-name': null,
-                        'element-tag': el.tagName,
+                        'last-changed': new Date().toLocaleString(),
+                        'change-counter': 0,
                         data,
                     };
 
+                    let ident: any = null;
+
                     if (el.getAttribute('id')) {
                         tableData['element-id'] = el.getAttribute('id');
+                        ident = el.getAttribute('id');
                     }
 
                     if (el.getAttribute('name')) {
                         tableData['element-name'] = el.getAttribute('name');
+                        if (!ident) {
+                            ident = el.getAttribute('name');
+                        }
                     }
 
                     if (el.getAttribute('x-ref')) {
                         tableData['element-ref'] = el.getAttribute('x-ref');
+
+                        if (!ident) {
+                            ident = el.getAttribute('x-ref');
+                        }
                     }
 
                     for (const name in tableData) {
@@ -152,12 +168,34 @@ const AlpineRayMagicMethod = {
                         }
                     }
 
-                    ray().table(tableData, 'x-ray');
+                    if (ident) {
+                        if (typeof this.trackRays[ident] === 'undefined') {
+                            this.trackRays[ident] = rayInstance();
+                            this.trackCounters[ident] = 0;
+                        }
+
+                        tableData['change-counter'] = ++this.trackCounters[ident];
+
+                        tableData['data'] = `<div class="bg-red-400 p-1 rounded-md">${tableData['data']}</div>`;
+
+                        this.trackRays[ident].table(tableData, 'alpine.js');
+
+                        rayInstance = this.trackRays[ident];
+
+                        this.trackRays[ident] = rayInstance.table(tableData, 'x-ray');
+
+                        setTimeout(() => {
+                            tableData['data'] = tableData['data'].replace('bg-red-400', '');
+                            this.trackRays[ident] = rayInstance.table(tableData, 'x-ray');
+                        }, 3000);
+                    } else {
+                        rayInstance().table(tableData, 'x-ray');
+                    }
                 });
             });
         });
 
-        const rayCallback = (...params: any) => ray(...params);
+        const rayCallback = (...params: any) => rayInstance(...params);
 
         Alpine.magic('ray', () => rayCallback);
     },
