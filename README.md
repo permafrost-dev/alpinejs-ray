@@ -1,11 +1,16 @@
 <p align="center">
-    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-ray-logo-600x300-transparent.png" alt="alpinejs-ray" height="200" style="display: block; height: 200px;">
+    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-ray-logo-600x300-transparent.png" alt="alpinejs-ray" height="200" 
+        style="display: block; height: 200px;">
 </p>
 
 <p align="center">
-    <img src="https://shields.io/npm/v/alpinejs-ray" alt="npm version"> <img src="https://shields.io/github/license/permafrost-dev/alpinejs-ray" alt="license"> <img src="https://github.com/permafrost-dev/alpinejs-ray/workflows/Run%20Tests/badge.svg?branch=main" alt="test status"> <img src="https://codecov.io/gh/permafrost-dev/alpinejs-ray/branch/main/graph/badge.svg?token=YW2BTKSNEO"/>
+    <img src="https://shields.io/npm/v/alpinejs-ray" alt="npm version">
+    <img src="https://shields.io/github/license/permafrost-dev/alpinejs-ray" alt="license">
+    <img src="https://github.com/permafrost-dev/alpinejs-ray/workflows/Run%20Tests/badge.svg?branch=main" alt="test status">
+    <img src="https://codecov.io/gh/permafrost-dev/alpinejs-ray/branch/main/graph/badge.svg?token=YW2BTKSNEO"/>
     <br>
-    <img src="https://shields.io/npm/dt/alpinejs-ray" alt="npm downloads"> <img src="https://data.jsdelivr.com/v1/package/npm/alpinejs-ray/badge?style=rounded" alt="jsdelivr downloads">
+    <img src="https://shields.io/npm/dt/alpinejs-ray" alt="npm downloads">
+    <img src="https://data.jsdelivr.com/v1/package/npm/alpinejs-ray/badge?style=rounded" alt="jsdelivr downloads">
 </p>
 
 # alpinejs-ray
@@ -19,6 +24,7 @@ This package can be installed into any project using [Alpine.js](https://github.
 <!-- ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png) -->
 
 ## Installation
+
 ### Installation via CDN (recommended)
 
 The preferred way to use this package is to load it via CDN, which must be done _before_ loading Alpine.  
@@ -53,6 +59,7 @@ window.Alpine = Alpine;
 Alpine.plugin(AlpineRayPlugin);
 Alpine.start();
 ```
+
 ## Configuration
 
 To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on the `window` object before loading `alpinejs-ray`:
@@ -75,7 +82,6 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 | `logErrors` | `boolean` | `false` | Send javascript errors to Ray instead of the console |
 | `logEvents` | `boolean, array` | `false` | Send specified custom events to Ray, or `false` to disable |
 
-
 ## Usage
 
 Once the plugin is installed, you may access the `$ray()` magic method within your components.
@@ -93,6 +99,9 @@ You may use the `x-ray` directive within your html markup to easily send data to
     <div x-ray="$store.mystore.somevalue"></div>
 </div>
 ```
+
+The values for the `x-ray` directive are reactive; if the value changes, the new data will be sent to and displayed in Ray in-place. 
+The changed value will be momentarily highlighted in Ray as well to indicate that it was updated.
 
 ## Example Components
 
