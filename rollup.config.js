@@ -25,7 +25,6 @@ export default {
             plugins: [],
         },
     ],
-    //moduleContext: { 'src/SpruceProxy.ts': 'this' },
     plugins: [
         replace({
             values: {

@@ -9,30 +9,34 @@ const options = {
     minified: true,
 };
 
+const outputEntry = {
+    file: `dist/standalone.js`,
+    format: 'umd',
+    //name: 'AlpineRay',
+    sourcemap: options.sourceMapsEnabled,
+    //exports: 'named',
+    plugins: [],
+    globals: {
+        axios: 'axios',
+    },
+};
+
+function makeEntryMinified(entry) {
+    const result = Object.assign({}, entry);
+
+    result['file'] = result['file'].replace(/\.js$/, '.min.js');
+    result['plugins'] = [terser()];
+
+    return Object.freeze(result);
+}
+
+function getEntryObject(entry) {
+    return Object.freeze(Object.assign({}, entry));
+}
+
 export default {
     input: `src/index-standalone.ts`,
-    output: [
-        {
-            file: `dist/standalone-test.js`,
-            format: 'umd',
-            //name: 'AlpineRay',
-            sourcemap: options.sourceMapsEnabled,
-            //exports: 'named',
-            plugins: [],
-            globals: {
-                axios: 'axios',
-            },
-        },
-        {
-            file: `dist/standalone-test.min.js`,
-            format: 'umd',
-            name: 'AlpineRay',
-            sourcemap: options.sourceMapsEnabled,
-            exports: 'named',
-            plugins: [terser()],
-            globals: { axios: 'axios' },
-        },
-    ],
+    output: [getEntryObject(outputEntry), makeEntryMinified(outputEntry)],
     plugins: [
         replace({
             values: {
