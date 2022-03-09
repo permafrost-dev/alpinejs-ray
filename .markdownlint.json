@@ -1,0 +1,9 @@
+{
+    "default": true,
+    "first-line-heading": false,
+    "header-style": { "style": "atx" },
+    "line-length": { "line_length": 150 },
+    "no-inline-html": false,
+    "no-trailing-spaces": false,
+    "ul-indent": { "indent": 4 }
+}
