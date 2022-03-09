@@ -1,19 +1,45 @@
 /* eslint-disable no-undef */
 
 import { Ray } from 'node-ray/web';
-import { SpruceRay } from './SpruceRay';
+import { getWindow } from '@/lib/utils';
 
 export class AlpineRay extends Ray {
     public static $version = '__BUILD_VERSION__';
 
-    public spruceRay: SpruceRay | null = null;
+    public rayInstance: any;
+    public trackRays: Record<string, any> = {
+        store: {},
+    };
 
-    public spruce(): SpruceRay {
-        if (this.spruceRay === null) {
-            this.spruceRay = SpruceRay.create();
+    public window: any = null;
+
+    protected alpine(): any {
+        return this.window.Alpine;
+    }
+
+    public init(rayInstance: any = null, window: any = null) {
+        this.rayInstance = rayInstance ?? this.rayInstance ?? globalThis.ray() ?? ray();
+        this.window = window ?? this.window ?? getWindow();
+    }
+
+    public watchStore(name: string) {
+        this.init();
+
+        if (typeof this.trackRays.store[name] === 'undefined') {
+            this.trackRays.store[name] = this.rayInstance ?? globalThis.ray() ?? ray();
         }
 
-        return <SpruceRay>this.spruceRay;
+        const data = this.alpine().store(name);
+
+        this.alpine().effect(() => {
+            this.trackRays.store[name].table(data);
+        });
+    }
+
+    public unwatchStore(name: string) {
+        if (typeof this.trackRays.store[name] !== 'undefined') {
+            delete this.trackRays.store[name];
+        }
     }
 }
 

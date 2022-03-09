@@ -21,3 +21,6 @@ _*.txt
 rollup.vue?-config.js
 examples
 rollup.*.js
+.markdownlint.json
+/.husky
+prettier.config.js

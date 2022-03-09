@@ -4,6 +4,14 @@ All notable changes to `permafrost-dev/alpinejs-ray` will be documented in this 
 
 ---
 
+## 2.0.0 - 2022-03-09
+
+- drop support for Alpine v2
+- add support for Alpine v3
+- drop Spruce support
+- major code cleanup and refactoring
+- dependency version updates
+
 ## 1.4.0 - 2021-03-13
 
 - add `SpruceRay.spruce()` method to access an object for watching/unwatching Spruce store properties

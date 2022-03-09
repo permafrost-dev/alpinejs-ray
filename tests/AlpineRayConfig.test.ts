@@ -8,7 +8,6 @@ it('uses default values when no config object exists', () => {
     expect(config.logComponentsInit).toBeFalsy();
     expect(config.logCustomEvents).toBeFalsy();
     expect(config.interceptErrors).toBeFalsy();
-    expect(config.interceptSpruce).toBeFalsy();
 });
 
 it('loads the values from the global config object', () => {
@@ -22,5 +21,4 @@ it('loads the values from the global config object', () => {
     expect(config.logComponentsInit).toBeTruthy();
     expect(config.logCustomEvents).toBeTruthy();
     expect(config.interceptErrors).toBeFalsy();
-    expect(config.interceptSpruce).toBeFalsy();
 });

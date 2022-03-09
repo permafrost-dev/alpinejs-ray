@@ -1,78 +1,66 @@
 <p align="center">
-    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-ray-logo-600x300.png" alt="alpinejs-ray" height="200" style="block">
-    <br><br>
-    <code style="font-size:3.0rem;"><strong>alpinejs-ray</strong></code>
-    <br><br>
+    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-ray-logo-600x300-transparent.png" alt="alpinejs-ray" height="200" 
+        style="display: block; height: 200px;">
 </p>
 
 <p align="center">
-    <img src="https://shields.io/npm/v/alpinejs-ray" alt="npm version"> <img src="https://shields.io/github/license/permafrost-dev/alpinejs-ray" alt="license"> <img src="https://github.com/permafrost-dev/alpinejs-ray/workflows/Run%20Tests/badge.svg?branch=main" alt="test status"> <img src="https://codecov.io/gh/permafrost-dev/alpinejs-ray/branch/main/graph/badge.svg?token=YW2BTKSNEO"/>
+    <img src="https://shields.io/npm/v/alpinejs-ray" alt="npm version">
+    <img src="https://shields.io/github/license/permafrost-dev/alpinejs-ray" alt="license">
+    <img src="https://github.com/permafrost-dev/alpinejs-ray/workflows/Run%20Tests/badge.svg?branch=main" alt="test status">
+    <img src="https://codecov.io/gh/permafrost-dev/alpinejs-ray/branch/main/graph/badge.svg?token=YW2BTKSNEO"/>
     <br>
-    <img src="https://shields.io/npm/dt/alpinejs-ray" alt="npm downloads"> <img src="https://data.jsdelivr.com/v1/package/npm/alpinejs-ray/badge?style=rounded" alt="jsdelivr downloads">
+    <img src="https://shields.io/npm/dt/alpinejs-ray" alt="npm downloads">
+    <img src="https://data.jsdelivr.com/v1/package/npm/alpinejs-ray/badge?style=rounded" alt="jsdelivr downloads">
 </p>
 
 # alpinejs-ray
 
 ## Debug your Alpine.js code with Ray to fix problems faster
 
-This package can be installed into any project using alpine.js to send messages to the [Ray app](https://myray.app).
+This package can be installed into any project using [Alpine.js](https://github.com/alpinejs/alpine) to send messages to the [Ray app](https://myray.app).
 
-![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png)
+> Note: use version `^1.4` of this package for Alpine v2, and `^2.0` for Alpine v3.
 
-## Installation via CDN
+<!-- ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png) -->
 
-The preferred way to use this package is to load it via a CDN.  You'll need to load the `axios` library as well:
+## Installation
+
+### Installation via CDN (recommended)
+
+The preferred way to use this package is to load it via CDN, which must be done _before_ loading Alpine.  
+
+You must also load the `axios` library prior to loading `alpinejs-ray` and `Alpine`:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/axios@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@latest/dist/standalone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@2/dist/standalone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" defer>
 ```
 
-## Installation with package bundlers
+### Installation via Module Import
 
-Install with npm:
+First, install `alpinejs-ray` with npm _(or your preferred package manager)_:
 
 ```bash
 npm install alpinejs-ray
 ```
 
-or yarn:
-
-```bash
-yarn add alpinejs-ray
-```
-
-#### Importing the plugin
-
-Although not the recommended way, you can import package normally, along with `node-ray/web`, `alpinejs` and `axios`:
+Although not the recommended way, you can import package normally, along with `alpinejs` and `axios`:
 
 ```js 
-import { Ray, ray } from 'node-ray/web';
 import Alpine from 'alpinejs';
 import AlpineRayPlugin from 'alpinejs-ray';
 
-window.ray = ray;
-window.Ray = Ray;
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Alpine = Alpine;
-window.AlpineRayPlugin = AlpineRayPlugin;
-window.AlpineRayPlugin.init();
-window.AlpineRayPlugin.start();
+
+Alpine.plugin(AlpineRayPlugin);
+Alpine.start();
 ```
 
-To help reduce this large amount of boilerplate code, you can use the bootstrap helper function:
-
-```js
-import Alpine from 'alpinejs';
-import { bootstrapImports } from 'alpinejs-ray';
-
-const AlpineRayPlugin = bootstrapImports(Alpine);
-AlpineRayPlugin.start();
-```
-
-### Configuration options
+## Configuration
 
 To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on the `window` object before loading `alpinejs-ray`:
 
@@ -80,27 +68,40 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 <script>
     window.alpineRayConfig = {
         logComponentsInit: true,
-        logCustomEvents: false,
-        interceptErrors: true,
-        interceptSpruce: true,
+        logErrors: true,
+        logEvents: ['abc'],
     };
 </script>
 
-<!-- load axios and alpinejs-ray scripts here -->
+<!-- load axios and alpinejs-ray -->
 ```
 
-| Name | Type | Default | Description |
+| Name | Type(s) | Default | Description |
 | --- | --- | --- | --- |
 | `logComponentsInit` | `boolean` | `false` | Send info on component initializations to Ray |
-| `logCustomEvents` | `boolean` | `false` | Send info on custom events to Ray _(events with hyphenated names)_ |
-| `interceptErrors` | `boolean` | `false` | Send javascript errors to Ray instead of the console |
-| `interceptSpruce` | `boolean` | `false` | Display changes to the Spruce state in Ray |
+| `logErrors` | `boolean` | `false` | Send javascript errors to Ray instead of the console |
+| `logEvents` | `boolean, array` | `false` | Send specified custom events to Ray, or `false` to disable |
 
 ## Usage
 
-Once the plugin is installed, you may access the `$ray()` method within your components.
+Once the plugin is installed, you may access the `$ray()` magic method within your components.
 
 See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a full list of available methods.
+
+### Directives
+
+You may use the `x-ray` directive within your html markup to easily send data to Ray.  The value of the directive must be a valid javascript expression.
+
+```html
+<div x-data>
+    <!-- sends 'hello world' and the value of the 'mystore.somevalue' Alpine store to Ray -->
+    <div x-ray="'hello world'"></div>
+    <div x-ray="$store.mystore.somevalue"></div>
+</div>
+```
+
+The values for the `x-ray` directive are reactive; if the value changes, the new data will be sent to and displayed in Ray in-place. 
+The changed value will be momentarily highlighted in Ray as well to indicate that it was updated.
 
 ## Example Components
 
@@ -109,7 +110,7 @@ See the [node-ray reference](https://github.com/permafrost-dev/node-ray#referenc
 ```
 
 ```html
-<div x-data="onClickData()" x-init="init()">
+<div x-data="onClickData()">
     <div x-show="show">Hi There Ray!</div>
 
     <button x-on:click="toggle()">Show/Hide (Ray)</button>
@@ -137,50 +138,37 @@ Errors can be automatically sent to Ray. The portion of the code that caused the
 
 ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/error-display.png)
 
-## Tracking Spruce Data Stores
+## Tracking Data Stores
 
-Spruce data store are automatically tracked if Spruce is installed and the `alpineRayConfig.interceptSpruce` setting is `true`.  Consider the following:
+You may automatically send Alpine stores to Ray whenever the store data is updated.  Consider the following:
 
 ```js
-window.Spruce.store('mydata', {
+window.Alpine.store('mydata', {
     showing: false,
-    toggle() {
-        this.showing = !this.showing;
-        ray().html('<strong>[spruce]</strong> showing = ' + this.showing);
-    }
 });
  
 setInterval( () => {
-    window.Spruce.stores.mydata.showing = !window.Spruce.stores.mydata.showing;
+    window.Alpine.store('mydata').showing = !window.Alpine.store('mydata').showing;
 }, 3000);
 ```
 
-Data tracking example _(note that the values change in place)_:
-
-<p align="center">
-    <img src="https://static.permafrost.dev/images/alpinejs-ray/alpinejs-tracking-spruce-01.gif" alt="data tracking">
-</p>
-
-## Watching Spruce store properties
-
-To watch a Spruce store property and display changes in Ray, use the `$ray().spruce().watch('store.propName')` method:
+To watch the store and display changes in Ray, use the `$ray().watchStore('name')` method:
 
 ```html
-<div x-data="componentData()" x-init="init()">
+<div x-data="componentData()">
     <div x-show="$store.mydata.showing">Hi There Ray!</div>
     <button x-on:click="toggle()">Show/Hide (Ray)</button>
 </div>
 
 <script>      
-window.Spruce.store('mydata', {
+window.Alpine.store('mydata', {
     showing: false,
 });
   
 function componentData() {
     return {
         init() {
-            // changes to mydata.showing will be displayed in Ray
-            this.$ray().spruce().watch('mydata.showing');
+            this.$ray().watchStore('mydata');
         },
         toggle() {
             this.$store.mydata.showing = !this.$store.mydata.showing;
@@ -190,19 +178,27 @@ function componentData() {
 </script>
 ```
 
-## Development setup
+## Development Setup
 
-- `npm install`
-- `npm run test`
-- `npm run build:all`
+For development of `alpinejs-ray`, clone the repository and install dependencies via npm:
+
+```bash
+npm install
+```
+
+Finally, build all library files; they will be output to the `dist` directory.
+
+```bash
+npm run build:all
+```
 
 ## Testing
 
 `alpinejs-ray` uses Jest for unit tests.  To run the test suite:
 
-`npm run test`
-
----
+```bash
+npm run test
+```
 
 ## Changelog
 

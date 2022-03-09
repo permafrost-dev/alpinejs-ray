@@ -7,7 +7,7 @@ it('throws an error if node-ray is not installed', () => {
 
     try {
         checkForRay({});
-    } catch (err) {
+    } catch (err: any) {
         error = err;
     }
 
@@ -19,7 +19,7 @@ it('throws an error if node-ray is not initialized correctly', () => {
 
     try {
         checkForRay({ Ray: {} });
-    } catch (err) {
+    } catch (err: any) {
         error = err;
     }
 
@@ -31,7 +31,7 @@ it('throws an error if alpine is not installed', () => {
 
     try {
         checkForAlpine({});
-    } catch (err) {
+    } catch (err: any) {
         error = err;
     }
 
@@ -49,7 +49,7 @@ it('throws an error if alpine does not meet the minimum version', () => {
 
     try {
         checkForAlpine(win);
-    } catch (err) {
+    } catch (err: any) {
         error = err;
     }
 
