@@ -14,6 +14,7 @@
     },
     "main": "./dist/index.cjs.js",
     "jsdelivr": "./dist/standalone.min.js",
+    "unpkg": "./dist/standalone.min.js",
     "exports": {
         ".": {
             "import": "./dist/index.esm.mjs",
