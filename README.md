@@ -15,11 +15,11 @@
 
 # alpinejs-ray
 
-## Debug your Alpine.js code with Ray to fix problems faster
+## Debug Alpine.js code with Ray to fix problems faster
 
-This package can be installed into any project using [Alpine.js](https://github.com/alpinejs/alpine) to send messages to the [Ray app](https://myray.app).
+Install this package into any project using [Alpine.js](https://github.com/alpinejs/alpine) to send messages to the [Ray app](https://myray.app).
 
-> Note: use version `^1.4` of this package for Alpine v2, and `^2.0` for Alpine v3.
+> Note: use version `^1.4` of this package for Alpine v2 and `^2.0` for Alpine v3.
 
 <!-- ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/screenshot-01.png) -->
 
@@ -29,7 +29,7 @@ This package can be installed into any project using [Alpine.js](https://github.
 
 The preferred way to use this package is to load it via CDN, which must be done _before_ loading Alpine.  
 
-You must also load the `axios` library prior to loading `alpinejs-ray` and `Alpine`:
+The `axios` library must be loaded prior to loading `alpinejs-ray` and `Alpine`:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.min.js"></script>
@@ -45,7 +45,7 @@ First, install `alpinejs-ray` with npm _(or your preferred package manager)_:
 npm install alpinejs-ray
 ```
 
-Although not the recommended way, you can import package normally, along with `alpinejs` and `axios`:
+Although not the recommended way, the package can be imported as an ESM module along with `alpinejs` and `axios`:
 
 ```js 
 import Alpine from 'alpinejs';
@@ -84,13 +84,17 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 
 ## Usage
 
-Once the plugin is installed, you may access the `$ray()` magic method within your components.
+After installing the plugin, access the `$ray()` magic method within your components:
 
-See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a full list of available methods.
+```html
+<button @click="$ray().text('hello world')">Say Hello</button>
+```
+
+See the [node-ray reference](https://github.com/permafrost-dev/node-ray#reference) for a complete list of available methods.
 
 ### Directives
 
-You may use the `x-ray` directive within your html markup to easily send data to Ray.  The value of the directive must be a valid javascript expression.
+Use the `x-ray` directive within your HTML markup to easily send data to Ray. The value of the directive must be a valid javascript expression.
 
 ```html
 <div x-data>
@@ -100,8 +104,8 @@ You may use the `x-ray` directive within your html markup to easily send data to
 </div>
 ```
 
-The values for the `x-ray` directive are reactive; if the value changes, the new data will be sent to and displayed in Ray in-place. 
-The changed value will be momentarily highlighted in Ray as well to indicate that it was updated.
+The `x-ray` directive values are reactive; if the value changes, the new data will be sent to and displayed in Ray in-place. 
+The changed value will be momentarily highlighted in Ray to indicate that it was updated.
 
 ## Example Components
 
@@ -134,13 +138,13 @@ function onClickData() {
 
 ## Displaying errors
 
-Errors can be automatically sent to Ray. The portion of the code that caused the error is highlighted.
+Errors can be displayed in Ray automatically, with the portion of the code that caused the error highlighted.
 
 ![screenshot](https://static.permafrost.dev/images/alpinejs-ray/error-display.png)
 
 ## Tracking Data Stores
 
-You may automatically send Alpine stores to Ray whenever the store data is updated.  Consider the following:
+Alpine stores can be automatically sent to Ray whenever the store data is mutated. Consider the following:
 
 ```js
 window.Alpine.store('mydata', {
@@ -180,7 +184,7 @@ function componentData() {
 
 ## Development Setup
 
-For development of `alpinejs-ray`, clone the repository and install dependencies via npm:
+For the development of `alpinejs-ray`, clone the repository and install dependencies via npm:
 
 ```bash
 npm install
@@ -194,7 +198,7 @@ npm run build:all
 
 ## Testing
 
-`alpinejs-ray` uses Jest for unit tests.  To run the test suite:
+`alpinejs-ray` uses Jest for unit tests. To run the test suite:
 
 ```bash
 npm run test
