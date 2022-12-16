@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`logs custom component events 1`] = `Array []`;
+exports[`logs custom component events 1`] = `[]`;
