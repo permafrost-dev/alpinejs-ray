@@ -4,6 +4,12 @@ All notable changes to `permafrost-dev/alpinejs-ray` will be documented in this 
 
 ---
 
+## 2.0.1 - 2024-02-21
+
+- fixing errors to ray
+- updated readme for handling errors
+- updated changelog for this update.
+
 ## 2.0.0 - 2022-03-09
 
 - drop support for Alpine v2

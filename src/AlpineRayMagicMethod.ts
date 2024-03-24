@@ -1,6 +1,13 @@
-import { ray } from '@/AlpineRay';
-import { AlpineRayConfig, getAlpineRayConfig } from '@/AlpineRayConfig';
-import { checkForAxios, encodeHtmlEntities, filterObjectKeys, findParentComponent, getWindow, highlightHtmlMarkup } from '@/lib/utils';
+import {ray} from '@/AlpineRay';
+import {AlpineRayConfig, getAlpineRayConfig} from '@/AlpineRayConfig';
+import {
+    checkForAxios,
+    encodeHtmlEntities,
+    filterObjectKeys,
+    findParentComponent,
+    getWindow,
+    highlightHtmlMarkup
+} from '@/lib/utils';
 import minimatch from 'minimatch';
 
 function getMatches(patterns: string[], values: string[]) {
@@ -45,7 +52,7 @@ const AlpineRayMagicMethod = {
 
                 window.addEventListener(eventName, e => {
                     if (eventName.includes('-') || (nameParts.length === 2 && lastNamePart === 'window')) {
-                        rayInstance.table(
+                        rayInstance().table(
                             {
                                 event: name,
                                 payload: e.detail ?? null,
@@ -71,7 +78,7 @@ const AlpineRayMagicMethod = {
             if (errorEvent.error || errorEvent.reason) {
                 const data = errorEvent.reason || errorEvent.error;
 
-                const { el, expression } = data;
+                const {el, expression} = data;
                 const parentComponent = findParentComponent(el);
 
                 // component and parent components are not alpine components, so do nothing
@@ -85,9 +92,9 @@ const AlpineRayMagicMethod = {
                     `<span class="text-red-700 bg-red-300 p-1">${encodeHtmlEntities(expression)}</span>`,
                 );
 
-                const componentData = parentComponent.__x ?? { $data: {} };
+                const componentData = parentComponent.__x ?? {$data: {}};
 
-                rayInstance.table(
+                rayInstance().table(
                     {
                         errorType: `alpine.js error`,
                         errorReason: data.toString(),
@@ -125,7 +132,7 @@ const AlpineRayMagicMethod = {
 
         checkForAxios(window);
 
-        Alpine.directive('ray', (el, { expression }, { evaluateLater, effect }) => {
+        Alpine.directive('ray', (el, {expression}, {evaluateLater, effect}) => {
             const result = evaluateLater(expression);
 
             effect(() => {
@@ -182,11 +189,11 @@ const AlpineRayMagicMethod = {
 
                         rayInstance = this.trackRays[ident];
 
-                        this.trackRays[ident] = rayInstance.table(tableData, 'x-ray');
+                        this.trackRays[ident] = rayInstance().table(tableData, 'x-ray');
 
                         setTimeout(() => {
                             tableData['data'] = tableData['data'].replace('bg-red-400', '');
-                            this.trackRays[ident] = rayInstance.table(tableData, 'x-ray');
+                            this.trackRays[ident] = rayInstance().table(tableData, 'x-ray');
                         }, 3000);
                     } else {
                         rayInstance().table(tableData, 'x-ray');
