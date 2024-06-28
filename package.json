@@ -1,6 +1,6 @@
 {
     "name": "alpinejs-ray",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "Debug AlpineJS code with Ray to fix problems faster",
     "license": "MIT",
     "author": "Patrick Organ <patrick@permafrost.dev>",
