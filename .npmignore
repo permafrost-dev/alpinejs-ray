@@ -24,3 +24,5 @@ rollup.*.js
 .markdownlint.json
 /.husky
 prettier.config.js
+rollup.config.mjs
+rollup.standalone-config.mjs
