@@ -2,7 +2,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
-import { terser } from '@rollup/plugin-terser';
+// import { terser } from '@rollup/plugin-terser';
+import packageJson from './package.json' with { type: "json" };
 
 const options = {
     sourceMapsEnabled: true,
@@ -25,7 +26,7 @@ function makeEntryMinified(entry) {
     const result = Object.assign({}, entry);
 
     result['file'] = result['file'].replace(/\.js$/, '.min.js');
-    result['plugins'] = [terser()];
+    result['plugins'] = [];
 
     return Object.freeze(result);
 }
@@ -41,7 +42,7 @@ export default {
         replace({
             values: {
                 __BUILD_DATE__: () => new Date().toISOString(),
-                __BUILD_VERSION__: () => require('./package.json').version,
+                __BUILD_VERSION__: () => packageJson.version,
             },
             preventAssignment: true,
         }),

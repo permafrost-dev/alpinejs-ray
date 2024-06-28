@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
+import packageJson from './package.json' with { type: "json" };
 
 const options = {
     sourceMapsEnabled: false,
@@ -29,7 +30,7 @@ export default {
         replace({
             values: {
                 __BUILD_DATE__: () => new Date().toISOString(),
-                __BUILD_VERSION__: () => require('./package.json').version,
+                __BUILD_VERSION__: () => packageJson.version,
             },
             preventAssignment: true,
         }),
