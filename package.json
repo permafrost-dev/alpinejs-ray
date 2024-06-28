@@ -77,7 +77,7 @@
         "typescript": "^5.0"
     },
     "dependencies": {
-        "minimatch": "^5.0.1",
+        "minimatch": "^9.0.5",
         "node-ray": "^1.18.0"
     }
 }
