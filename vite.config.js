@@ -1,4 +1,13 @@
+import { resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
+
+function generateFilenameFromFormat(format) {
+    if (format === 'cjs') {
+        return 'alpine-ray.cjs';
+    }
+
+    return `alpine-ray.${format}.js`;
+}
 
 export default defineConfig({
     test: {
@@ -19,8 +28,35 @@ export default defineConfig({
         include: ['tests/**/*.ts', 'tests/**/*.js', 'tests/*.ts'],
         reporters: ['default', process.env.CI ? 'github-actions' : 'verbose'],
     },
+    resolve: {
+        alias: {
+            '@': resolve('.', 'src'),
+        },
+    },
     build: {
+        lib: {
+            entry: 'src/index.ts',
+            name: 'AlpineRay',
+            formats: ['es', 'cjs', 'umd'],
+            fileName: format => generateFilenameFromFormat(format),
+        },
+        outDir: 'dist-temp-2',
+        minify: true,
         rollupOptions: {
+            external: [
+                'axios',
+                'dayjs',
+                'crypto',
+                'object-hash',
+                'stopwatch-node',
+                'md5',
+                'node-ray',
+                'node-ray/web',
+                '@permafrost-dev/pretty-format',
+                'stacktrace-js',
+                'xml-formatter',
+                'uuid',
+            ],
             treeshake: true,
         },
     },
