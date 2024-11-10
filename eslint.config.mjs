@@ -1,15 +1,15 @@
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
-import globals from "globals";
+import globals from 'globals';
 import { Linter } from 'eslint';
 
 /** @type {Linter.Config} */
 const config = [
     {
-        files: ["src/**/*.js", "src/**/*.ts"],
+        files: ['src/**/*.js', 'src/**/*.ts'],
         languageOptions: {
             ecmaVersion: 2022,
-            sourceType: "script",
+            sourceType: 'script',
             parser: tsParser,
             parserOptions: {
                 ecmaVersion: 2020,
@@ -22,7 +22,9 @@ const config = [
         },
     },
     {
-        plugins: [tsPlugin],
+        plugins: {
+            ts: tsPlugin,
+        },
         // extends: ['plugin:@typescript-eslint/recommended', 'eslint:recommended'],
         rules: {
             '@typescript-eslint/ban-ts-comment': 'off',

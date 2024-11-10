@@ -12,7 +12,7 @@
     "bugs": {
         "url": "https://github.com/permafrost-dev/alpinejs-ray/issues"
     },
-    "type": "commonjs",
+    "type": "module",
     "main": "./dist/index.cjs.js",
     "module": "./dist/index.esm.mjs",
     "jsdelivr": "./dist/standalone.min.js",
@@ -60,12 +60,13 @@
         "@rollup/plugin-commonjs": "^24.0.0",
         "@rollup/plugin-node-resolve": "^15.0.1",
         "@rollup/plugin-replace": "^5.0.1",
+        "@rollup/plugin-terser": "^0.4",
         "@rollup/plugin-typescript": "^10.0.1",
         "@types/jest": "^29.2.4",
-        "@rollup/plugin-terser": "^0.4",
         "@types/node": "^20.2.1",
         "@typescript-eslint/eslint-plugin": "^8.13.0",
         "@typescript-eslint/parser": "^8.13.0",
+        "@vitest/coverage-v8": "^2.1.4",
         "concurrently": "^8.0.1",
         "eslint": "^9.14.0",
         "husky": "^9.1.6",
@@ -75,7 +76,9 @@
         "prettier": "^3.3.3",
         "rollup": "^3.3.0",
         "ts-jest": "^29.0.3",
-        "typescript": "^5.6.3"
+        "typescript": "^5.6.3",
+        "vite": "^5.4.10",
+        "vitest": "^2.1.4"
     },
     "dependencies": {
         "minimatch": "^5.0.1",
