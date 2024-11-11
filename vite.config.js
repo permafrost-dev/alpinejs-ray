@@ -15,7 +15,7 @@ function generateFilenameFromFormat(format) {
 
 export default defineConfig({
     build: {
-        outDir: 'dist-temp-2/lib',
+        outDir: 'dist/lib',
         sourcemap: true,
         minify: true,
         lib: {

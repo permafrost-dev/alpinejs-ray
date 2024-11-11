@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
     build: {
-        outDir: 'dist-temp-2/cdn',
+        outDir: 'dist/cdn',
         sourcemap: true,
         minify: true,
         lib: {
