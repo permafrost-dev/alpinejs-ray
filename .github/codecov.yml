@@ -1,6 +1,6 @@
 codecov:
   branch: main
-  require_ci_to_pass: yes
+  require_ci_to_pass: true
 
 coverage:
   status:
@@ -8,14 +8,13 @@ coverage:
       default:
         informational: true
         target: auto
-        # this allows a 10% drop from the previous base commit coverage
         threshold: 20%
     patch:
       default:
         informational: true
   precision: 2
   round: up
-  range: "40...80"
+  range: "70...100"
 
 parsers:
   javascript:
@@ -33,12 +32,13 @@ comment:
   require_changes: true
 
 ignore:
+  - ".husky/"
   - "build/"
   - "dist/"
+  - "coverage/"
   - "src/index.ts"
   - "src/index-standalone.ts"
-  - ".eslintrc.js"
-  - "jest.config.js"
+  - "eslint.config.js"
   - "prettier.config.js"
-  - "rollup.config.js"
-  - "rollup.standalone-config.js"
+  - "vite.config.js"
+  - "vite.config.standalone.js"
