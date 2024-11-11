@@ -13,26 +13,27 @@
         "url": "https://github.com/permafrost-dev/alpinejs-ray/issues"
     },
     "type": "module",
-    "main": "./dist/index.cjs.js",
-    "module": "./dist/index.esm.mjs",
-    "jsdelivr": "./dist/standalone.min.js",
-    "unpkg": "./dist/standalone.min.js",
+    "main": "./dist/lib/index.js",
+    "module": "./dist/lib/index.js",
+    "jsdelivr": "./dist/cdn/standalone.umd.js",
+    "unpkg": "./dist/cdn/standalone.umd.js",
     "exports": {
         ".": {
-            "import": "./dist/index.esm.mjs",
-            "require": "./dist/index.cjs.js"
+            "default": "./dist/lib/index.js",
+            "import": "./dist/lib/index.js",
+            "require": "./dist/lib/index.cjs"
         }
     },
     "scripts": {
-        "test": "./node_modules/.bin/jest tests --verbose",
-        "test:coverage": "./node_modules/.bin/jest tests --coverage",
-        "fmt": "./node_modules/.bin/prettier --config prettier.config.js --write 'src/**/*.{js,ts,json}' 'tests/**/*.{js,ts,json}' './*.js'",
-        "lint": "./node_modules/.bin/eslint --ext ts,js src/",
-        "lint:fix": "./node_modules/.bin/eslint --ext ts,js --fix src/",
-        "lint:staged": "./node_modules/.bin/lint-staged",
+        "test": "vitest tests --verbose",
+        "test:coverage": "vitest tests --coverage",
+        "fmt": "prettier --config prettier.config.js --write 'src/**/*.{js,ts,json}' 'tests/**/*.{js,ts,json}' './*.js'",
+        "lint": "eslint --ext ts,js src/",
+        "lint:fix": "eslint --ext ts,js --fix src/",
+        "lint:staged": "lint-staged",
         "fix": "npm run fmt && npm run lint:fix",
-        "build:module": "rollup --config rollup.config.mjs",
-        "build:standalone": "rollup --config rollup.standalone-config.mjs",
+        "build:module": "vite build",
+        "build:standalone": "vite build --config vite.config.standalone.js",
         "build:all": "concurrently npm:build:module npm:build:standalone",
         "preversion": "npm run test",
         "postversion": "npm run build:all",
@@ -40,39 +41,34 @@
     },
     "lint-staged": {
         "*.{js,ts,mjs,cjs,mts}": [
-            "./node_modules/.bin/prettier --config prettier.config.js --write",
-            "./node_modules/.bin/eslint --fix"
+            "prettier --config prettier.config.js --write",
+            "eslint --fix"
         ],
         "*.{json,css,scss,gql}": [
-            "./node_modules/.bin/prettier --config prettier.config.js --write"
+            "prettier --config prettier.config.js --write"
         ],
         "*.{yaml,yml}": [
-            "./node_modules/.bin/prettier --config prettier.config.js --tab-width 2 --write"
+            "prettier --config prettier.config.js --tab-width 2 --write"
         ]
     },
     "keywords": [
         "alpinejs",
         "ray",
+        "spatie",
         "debug",
         "permafrost"
     ],
     "devDependencies": {
-        "@rollup/plugin-commonjs": "^24.0.0",
-        "@rollup/plugin-node-resolve": "^15.0.1",
-        "@rollup/plugin-replace": "^5.0.1",
-        "@rollup/plugin-terser": "^0.4",
-        "@rollup/plugin-typescript": "^10.0.1",
         "@types/node": "^22.9.0",
         "@typescript-eslint/eslint-plugin": "^8.13.0",
         "@typescript-eslint/parser": "^8.13.0",
         "@vitest/coverage-v8": "^2.1.4",
-        "concurrently": "^8.0.1",
+        "concurrently": "^9.1.0",
         "eslint": "^9.14.0",
         "husky": "^9.1.6",
         "is-ci": "^3.0.1",
         "lint-staged": "^15.2.10",
         "prettier": "^3.3.3",
-        "rollup": "^3.3.0",
         "typescript": "^5.6.3",
         "vite": "^5.4.10",
         "vitest": "^2.1.4"

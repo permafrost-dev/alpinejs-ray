@@ -3,46 +3,34 @@ import { defineConfig } from 'vitest/config';
 
 function generateFilenameFromFormat(format) {
     if (format === 'cjs') {
-        return 'alpine-ray.cjs';
+        return 'index.cjs';
     }
 
-    return `alpine-ray.${format}.js`;
+    if (format === 'es') {
+        return 'index.js';
+    }
+
+    return `index.${format}.js`;
 }
 
 export default defineConfig({
-    test: {
-        name: 'AlpineRay',
-        globals: true,
-        passWithNoTests: true,
-        watch: false,
-        environment: 'jsdom',
-        alias: {
-            '@/': new URL('./src/', import.meta.url).pathname,
-        },
-        coverage: {
-            all: true,
-            include: ['src/**/*.ts'],
-            exclude: ['src/index.ts', 'src/index-standalone.ts'],
-            reporter: [['text'], ['json', { file: 'coverage.json' }]],
-        },
-        include: ['tests/**/*.ts', 'tests/**/*.js', 'tests/*.ts'],
-        reporters: ['default', process.env.CI ? 'github-actions' : 'verbose'],
-    },
-    resolve: {
-        alias: {
-            '@': resolve('.', 'src'),
-        },
-    },
     build: {
+        outDir: 'dist-temp-2/lib',
+        sourcemap: true,
+        minify: true,
         lib: {
             entry: 'src/index.ts',
             name: 'AlpineRay',
-            formats: ['es', 'cjs', 'umd'],
+            formats: ['es', 'cjs'],
             fileName: format => generateFilenameFromFormat(format),
         },
-        outDir: 'dist-temp-2',
-        minify: true,
         rollupOptions: {
+            output: {
+                globals: {
+                    axios: 'axios',
+                    dayjs: 'dayjs',
+                },
+            },
             external: [
                 'axios',
                 'dayjs',
@@ -60,10 +48,33 @@ export default defineConfig({
             treeshake: true,
         },
     },
+    resolve: {
+        alias: {
+            '@': resolve('.', 'src'),
+        },
+    },
     server: {
         watch: {
             usePolling: true,
             ignored: ['**/node_modules/**', '**/dist/**', './coverage/**', '**/.git/**'],
         },
+    },
+    test: {
+        name: 'AlpineRay',
+        globals: true,
+        passWithNoTests: true,
+        watch: false,
+        environment: 'jsdom',
+        alias: {
+            '@/': new URL('./src/', import.meta.url).pathname,
+        },
+        coverage: {
+            all: true,
+            include: ['src/**/*.ts'],
+            exclude: ['src/index.ts', 'src/index-standalone.ts'],
+            reporter: [['text'], ['json', { file: 'coverage.json' }]],
+        },
+        include: ['tests/**/*.ts', 'tests/**/*.js', 'tests/*.ts'],
+        reporters: ['default', process.env.CI ? 'github-actions' : 'verbose'],
     },
 });
