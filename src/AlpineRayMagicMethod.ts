@@ -2,6 +2,7 @@ import { ray } from '@/AlpineRay';
 import { AlpineRayConfig, getAlpineRayConfig } from '@/AlpineRayConfig';
 import { checkForAxios, encodeHtmlEntities, filterObjectKeys, findParentComponent, getWindow, highlightHtmlMarkup } from '@/lib/utils';
 import { minimatch } from 'minimatch';
+import { vi } from 'vitest';
 
 function getMatches(patterns: string[], values: string[]) {
     const result: string[] = [];
@@ -181,6 +182,8 @@ const AlpineRayMagicMethod = {
                         this.trackRays[ident].table(tableData, 'alpine.js');
 
                         rayInstance = this.trackRays[ident];
+
+                        console.log('rayInstance', rayInstance);
 
                         this.trackRays[ident] = rayInstance().table(tableData, 'x-ray');
 

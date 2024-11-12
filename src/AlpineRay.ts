@@ -1,7 +1,5 @@
- 
-
-import { Ray } from 'node-ray/web';
 import { getWindow } from '@/lib/utils';
+import { Ray } from 'node-ray/web';
 
 export class AlpineRay extends Ray {
     public rayInstance: any;
@@ -9,10 +7,10 @@ export class AlpineRay extends Ray {
         store: {},
     };
 
-    public window: any = null;
+    public window: Window | null = null;
 
     protected alpine(): any {
-        return this.window.Alpine;
+        return this.window?.Alpine;
     }
 
     public init(rayInstance: any = null, window: any = null) {
@@ -30,7 +28,7 @@ export class AlpineRay extends Ray {
         const data = this.alpine().store(name);
 
         this.alpine().effect(() => {
-            this.trackRays.store[name].table(data);
+            this.trackRays.store[name]?.table(data);
         });
     }
 
@@ -41,13 +39,7 @@ export class AlpineRay extends Ray {
     }
 }
 
-export const ray = (...args: any[]) => {
-    // @ts-ignore
-    return AlpineRay.create().send(...args);
-};
+export const ray = (...args: any[]) => AlpineRay.create().send(...args) as AlpineRay;
 
-globalThis.ray = function (...args: any[]) {
-    return ray(...args);
-};
-
+globalThis.ray = ray;
 globalThis.AlpineRay = Ray;
