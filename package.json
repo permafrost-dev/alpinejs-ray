@@ -25,7 +25,7 @@
         }
     },
     "scripts": {
-        "test": "vitest tests --verbose",
+        "test": "vitest tests",
         "test:coverage": "vitest tests --coverage",
         "fmt": "prettier --config prettier.config.js --write 'src/**/*.{js,ts,json}' 'tests/**/*.{js,ts,json}' './*.js'",
         "lint": "eslint --ext ts,js src/",
@@ -37,7 +37,7 @@
         "build:all": "concurrently npm:build:module npm:build:standalone",
         "preversion": "npm run test",
         "postversion": "npm run build:all",
-        "prepare": "is-ci || husky install"
+        "prepare": "is-ci || husky"
     },
     "lint-staged": {
         "*.{js,ts,mjs,cjs,mts}": [
@@ -74,7 +74,7 @@
         "vitest": "^2.1.4"
     },
     "dependencies": {
-        "minimatch": "^5.0.1",
-        "node-ray": "^1.18.0"
+        "minimatch": "^10.0.1",
+        "node-ray": "^2.1.2"
     }
 }

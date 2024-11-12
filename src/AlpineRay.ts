@@ -1,11 +1,9 @@
-/* eslint-disable no-undef */
+ 
 
 import { Ray } from 'node-ray/web';
 import { getWindow } from '@/lib/utils';
 
 export class AlpineRay extends Ray {
-    public static $version = '__BUILD_VERSION__';
-
     public rayInstance: any;
     public trackRays: Record<string, any> = {
         store: {},
