@@ -290,6 +290,7 @@ it.skip('should execute ray directive and update trackRays and trackCounters', (
     expect(testState.rayPayloadHistory.length).toBeGreaterThan(0);
 });
 
+//
 it.skip('should handle errors and send ray payload when an error occurs', () => {
     const config = { interceptErrors: true };
     AlpineRayMagicMethod.initErrorHandlers(config, win, rayInstance);
