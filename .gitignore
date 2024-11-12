@@ -4,6 +4,7 @@
 /.vscode
 /node_modules
 /dist
+/dist-temp*
 /coverage
 
 package-lock.json

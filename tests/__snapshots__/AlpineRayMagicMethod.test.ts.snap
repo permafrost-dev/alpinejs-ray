@@ -1,3 +1,20 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`logs custom component events 1`] = `[]`;
+
+exports[`should initialize custom event listeners when logEvents is defined 1`] = `
+{
+  "args": [
+    [
+      {
+        "event": "custom-event",
+        "payload": {
+          "foo": "bar",
+        },
+      },
+      "alpine.js",
+    ],
+  ],
+  "type": "table",
+}
+`;

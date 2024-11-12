@@ -1,7 +1,9 @@
-node_modules/*
-dist/*
+.coverage/*
 build/*
-*.yml
-*.yaml
+dist-temp*
+dist/*
+node_modules/*
 *.ignore
 *.ignored
+*.yaml
+*.yml

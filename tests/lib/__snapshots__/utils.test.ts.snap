@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`checks that html syntax highlighting works 1`] = `"<span class="text-blue-600">&lt;div</span>&nbsp;<span class="text-indigo-800">x-data</span>=<span class="text-green-600">&quot;{<div class="text-blue-800 bg-blue-200 rounded-md p-1 inline">test</div>:1}&quot;&nbsp;<span class="text-orange-400">class</span>=&quot;bg-red-400&nbsp;p-1&nbsp;rounded-md&quot;&gt;<span class="text-blue-600">&lt;a</span>&nbsp;<span class="text-indigo-800">@click</span>=&quot;console.log(123);&quot;</span>&gt;Hello,&nbsp;world!<span class="text-blue-600">&lt;/a&gt;</span><span class="text-blue-600">&lt;/div&gt;</span>"`;
+
+exports[`encodes HTML entities correctly 1`] = `"&lt;div&nbsp;class=&quot;test&quot;&gt;Hello&nbsp;&amp;&nbsp;welcome!&lt;/div&gt;"`;

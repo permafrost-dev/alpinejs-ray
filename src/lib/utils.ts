@@ -1,16 +1,16 @@
-/* eslint-disable no-undef */
-
-export function getWindow() {
-    return <any>globalThis;
+/**
+ * Returns the global window object.
+ */
+export function getWindow(): Window {
+    return window || globalThis;
 }
 
 /**
  * Determines if the axios library has been installed and initialized in the current browser environment.
  *
- * @param window
  */
-export const checkForAxios = (window: any = null) => {
-    const win: any = window ?? getWindow();
+export const checkForAxios = (window: Window | null = null) => {
+    const win: Window = (window ?? getWindow()) as Window;
 
     if (!win.axios) {
         throw new Error('[alpinejs-ray] axios is required for alpinejs-ray to function correctly.');
@@ -20,23 +20,20 @@ export const checkForAxios = (window: any = null) => {
 /**
  * Determines if the node-ray standalone library has been installed and initialized in the current browser environment.
  *
- * @param window
  */
 export const checkForRay = (window: any = null) => {
-    const win: any = window ?? getWindow();
+    const win: Window = (window ?? getWindow()) as Window;
 
-    if (!win.Ray || !win.Ray.Ray || !win.Ray.ray) {
+    if (!win.Ray || Object.keys(win.Ray).length === 0) {
         throw new Error('[alpinejs-ray] node-ray is required for alpinejs-ray to function correctly.');
     }
 };
 
 /**
  * Determines if alpine.js has been installed and initialized in the current browser environment.
- *
- * @param window
  */
 export const checkForAlpine = (window: any = null) => {
-    const win: any = window ?? getWindow();
+    const win: Window = (window ?? getWindow()) as Window;
 
     if (!win.Alpine) {
         throw new Error('[alpinejs-ray] Alpine is required for alpinejs-ray to function correctly.');
@@ -58,25 +55,19 @@ export const checkForAlpine = (window: any = null) => {
  * @returns boolean
  */
 export function isValidVersion(required: string, current: string) {
-    let currentVersionIdentStr = '',
-        requiredVersionIdentStr = '';
+    const shiftedNum = n => (!n || n === '0' ? 100 : Number.parseInt(n.padEnd(3, '0')) || 100);
 
-    const requiredArray: number[] = required.split('.').map(part => 1000 + parseInt(part));
-    let currentArray: number[] = current.split('.').map(part => 1000 + parseInt(part));
+    const requiredArr = required.split('.').map(part => shiftedNum(part));
+    const currentArr = current.split('.').map(part => shiftedNum(part));
 
-    while (currentArray.length < requiredArray.length) {
-        currentArray.push(1000);
+    while (currentArr.length < requiredArr.length && currentArr.length < 5) {
+        currentArr.push(100);
     }
 
-    // ensure the array lengths match
-    currentArray = currentArray.slice(0, requiredArray.length - 1);
+    const currentLong = Number(currentArr.join(''));
+    const requiredLong = Number(requiredArr.join(''));
 
-    for (let idx = 0; idx < currentArray.length; idx++) {
-        currentVersionIdentStr += currentArray[idx].toString();
-        requiredVersionIdentStr += requiredArray[idx].toString();
-    }
-
-    return Number(currentVersionIdentStr) >= Number(requiredVersionIdentStr);
+    return currentLong >= requiredLong;
 }
 
 export const encodeHtmlEntities = (str: string) => {
@@ -136,7 +127,7 @@ export const highlightHtmlMarkup = (str: string) => {
     );
 };
 
-export function getComponentName(element: any) {
+export function getComponentName(element: HTMLElement) {
     return (
         element.getAttribute('x-title') ||
         element.getAttribute('x-id') ||
@@ -152,7 +143,6 @@ export function getComponentName(element: any) {
     );
 }
 
-// TODO: Not sure how to test this
 export function findWireID(wireId, window: any = null) {
     window = window ?? getWindow();
 
@@ -185,9 +175,14 @@ export function findLiveViewName(alpineEl, window: any = null) {
 }
 
 export function extractFunctionName(functionName) {
-    if (functionName.startsWith('{')) {
-        return;
+    if (!functionName) {
+        return '';
     }
+
+    if (functionName?.startsWith('{')) {
+        return '';
+    }
+
     return functionName
         .replace(/\(([^\)]+)\)/, '') // Handles myFunction(param)
         .replace('()', '');
@@ -201,8 +196,12 @@ export function findParentComponent(el: any) {
         counter++;
         e = e.parentElement;
 
-        if (e.hasAttribute('x-data')) {
+        if (e?.hasAttribute('x-data')) {
             return e;
+        }
+
+        if (!e) {
+            return null;
         }
     }
 

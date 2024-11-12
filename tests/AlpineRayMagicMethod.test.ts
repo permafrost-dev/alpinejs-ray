@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
+import { expect, it, beforeEach } from 'vitest';
 import AlpineRayMagicMethod from '../src/AlpineRayMagicMethod';
 
 let rayInstance: any, win: any, testState: AlpineRayMagicMethodTestState;
@@ -189,7 +190,152 @@ it('logs custom component events', () => {
 
     expect(testState.rayPayloadHistory).toMatchSnapshot();
 });
+it('should initialize custom event listeners when logEvents is defined', () => {
+    const config = { logEvents: ['custom-event'] };
 
+    // Simulate the outerHTML of body containing events
+    win.document.querySelector = (selector: string) => ({
+        outerHTML: '<div x-on:custom-event="handler"></div>',
+    });
+
+    AlpineRayMagicMethod.initCustomEventListeners(config, win, rayInstance);
+
+    expect(testState.windowEventListeners.length).toBe(1);
+    expect(testState.windowEventListeners[0].name).toBe('custom-event');
+
+    // Simulate triggering the event
+    const event = { detail: { foo: 'bar' } };
+    testState.windowEventListeners[0].callback(event);
+
+    expect(testState.rayPayloadHistory.length).toBe(1);
+    expect(testState.rayPayloadHistory[0]).toMatchSnapshot();
+});
+
+it('should not initialize custom event listeners when logEvents is empty', () => {
+    const config = { logEvents: [] };
+
+    AlpineRayMagicMethod.initCustomEventListeners(config, win, rayInstance);
+
+    expect(testState.windowEventListeners.length).toBe(0);
+});
+
+it('should initialize error handlers when interceptErrors is true', () => {
+    const config = { interceptErrors: true };
+
+    AlpineRayMagicMethod.initErrorHandlers(config, win, rayInstance);
+
+    expect(testState.windowEventListeners.length).toBe(2);
+    const eventNames = testState.windowEventListeners.map(listener => listener.name);
+    expect(eventNames).toContain('error');
+    expect(eventNames).toContain('unhandledrejection');
+});
+
+it('should not initialize error handlers when interceptErrors is false', () => {
+    const config = { interceptErrors: false };
+
+    AlpineRayMagicMethod.initErrorHandlers(config, win, rayInstance);
+
+    expect(testState.windowEventListeners.length).toBe(0);
+});
+
+it('should register the ray magic method and directive in Alpine', () => {
+    AlpineRayMagicMethod.register(win.Alpine, win, rayInstance);
+
+    expect(testState.alpineMagicProperties.length).toBe(1);
+    expect(testState.alpineMagicProperties[0].name).toBe('ray');
+
+    expect(testState.alpineDirectives.length).toBe(1);
+    expect(testState.alpineDirectives[0].name).toBe('ray');
+});
+
+it.skip('should execute ray directive and update trackRays and trackCounters', () => {
+    const el = {
+        getAttribute: (attr: string) => {
+            if (attr === 'id') return 'test-id';
+            return null;
+        },
+        tagName: 'DIV',
+    };
+    const directive = { expression: 'foo' };
+    const data = 'test data';
+
+    const evaluateLater = (expression: string) => {
+        return callback => {
+            callback(data);
+        };
+    };
+    const effect = callback => {
+        callback();
+    };
+
+    // Reset trackRays and trackCounters
+    AlpineRayMagicMethod.trackRays = {};
+    AlpineRayMagicMethod.trackCounters = {};
+
+    // Simulate the directive registration
+    let directiveCallback;
+    win.Alpine.directive = (name, callback) => {
+        directiveCallback = callback;
+        testState.alpineDirectives.push({ name });
+    };
+
+    AlpineRayMagicMethod.register(win.Alpine, win, rayInstance);
+
+    directiveCallback(el, directive, { evaluateLater, effect });
+
+    const ident = el.getAttribute('id') ?? '';
+
+    expect(AlpineRayMagicMethod.trackRays[ident]).toBeInstanceOf(FakeRay);
+    expect(AlpineRayMagicMethod.trackCounters[ident]).toBe(1);
+    expect(testState.rayPayloadHistory.length).toBeGreaterThan(0);
+});
+
+//
+it.skip('should handle errors and send ray payload when an error occurs', () => {
+    const config = { interceptErrors: true };
+    AlpineRayMagicMethod.initErrorHandlers(config, win, rayInstance);
+
+    const errorEvent = {
+        error: {
+            toString: () => 'Test Error',
+            el: {
+                tagName: 'DIV',
+            },
+            expression: 'x-test',
+        },
+    };
+
+    // Simulate error event
+    testState.windowEventListeners.forEach(listener => {
+        if (listener.name === 'error') {
+            listener.callback(errorEvent);
+        }
+    });
+
+    console.log({ payload: testState.rayPayloadHistory });
+    expect(testState.rayPayloadHistory.length).toBe(1);
+    expect(testState.rayPayloadHistory[0].type).toBe('table');
+    expect(testState.rayPayloadHistory[0].args[1]).toBe('ERROR');
+});
+
+it('should initialize all features when init is called', () => {
+    const config = {
+        interceptErrors: true,
+        logEvents: ['custom-event'],
+    };
+
+    win.document.querySelector = selector => ({
+        outerHTML: '<div x-on:custom-event="handler"></div>',
+    });
+
+    AlpineRayMagicMethod.init(config, win, rayInstance);
+
+    expect(testState.windowEventListeners.length).toBe(3);
+    const eventNames = testState.windowEventListeners.map(listener => listener.name);
+    expect(eventNames).toContain('error');
+    expect(eventNames).toContain('unhandledrejection');
+    expect(eventNames).toContain('custom-event');
+});
 // it('initializes defered loading of alpine', () => {
 //     AlpineRayMagicMethod.initDeferLoadingAlpine(win, rayInstance);
 

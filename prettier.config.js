@@ -19,7 +19,7 @@ const overrides = [
     },
 ];
 
-module.exports = {
+export default {
     arrowParens: 'avoid',
     bracketSameLine: true,
     bracketSpacing: true,
@@ -27,7 +27,7 @@ module.exports = {
     insertPragma: false,
     jsxSingleQuote: false,
     overrides,
-    printWidth: 140,
+    printWidth: 160,
     proseWrap: 'preserve',
     quoteProps: 'as-needed',
     requirePragma: false,

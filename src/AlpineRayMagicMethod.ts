@@ -1,14 +1,8 @@
-import {ray} from '@/AlpineRay';
-import {AlpineRayConfig, getAlpineRayConfig} from '@/AlpineRayConfig';
-import {
-    checkForAxios,
-    encodeHtmlEntities,
-    filterObjectKeys,
-    findParentComponent,
-    getWindow,
-    highlightHtmlMarkup
-} from '@/lib/utils';
-import minimatch from 'minimatch';
+import { ray } from '@/AlpineRay';
+import { AlpineRayConfig, getAlpineRayConfig } from '@/AlpineRayConfig';
+import { checkForAxios, encodeHtmlEntities, filterObjectKeys, findParentComponent, getWindow, highlightHtmlMarkup } from '@/lib/utils';
+import { minimatch } from 'minimatch';
+import { vi } from 'vitest';
 
 function getMatches(patterns: string[], values: string[]) {
     const result: string[] = [];
@@ -78,7 +72,7 @@ const AlpineRayMagicMethod = {
             if (errorEvent.error || errorEvent.reason) {
                 const data = errorEvent.reason || errorEvent.error;
 
-                const {el, expression} = data;
+                const { el, expression } = data;
                 const parentComponent = findParentComponent(el);
 
                 // component and parent components are not alpine components, so do nothing
@@ -92,7 +86,7 @@ const AlpineRayMagicMethod = {
                     `<span class="text-red-700 bg-red-300 p-1">${encodeHtmlEntities(expression)}</span>`,
                 );
 
-                const componentData = parentComponent.__x ?? {$data: {}};
+                const componentData = parentComponent.__x ?? { $data: {} };
 
                 rayInstance().table(
                     {
@@ -132,7 +126,7 @@ const AlpineRayMagicMethod = {
 
         checkForAxios(window);
 
-        Alpine.directive('ray', (el, {expression}, {evaluateLater, effect}) => {
+        Alpine.directive('ray', (el, { expression }, { evaluateLater, effect }) => {
             const result = evaluateLater(expression);
 
             effect(() => {
@@ -188,6 +182,8 @@ const AlpineRayMagicMethod = {
                         this.trackRays[ident].table(tableData, 'alpine.js');
 
                         rayInstance = this.trackRays[ident];
+
+                        console.log('rayInstance', rayInstance);
 
                         this.trackRays[ident] = rayInstance().table(tableData, 'x-ray');
 
