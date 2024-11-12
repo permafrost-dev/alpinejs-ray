@@ -33,9 +33,8 @@ The preferred way to use this package is to load it via CDN, which must be done 
 The `axios` library must be loaded prior to loading `alpinejs-ray` and `Alpine`:
 
 ```html
-
 <script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@2/dist/standalone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs-ray@2/dist/cdn/standalone.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" defer>
 ```
 
@@ -52,11 +51,11 @@ Although not the recommended way, the package can be imported as an ESM module a
 ```js 
 import Alpine from 'alpinejs';
 import AlpineRayPlugin from 'alpinejs-ray';
-
-window.axios = require('axios');
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import axios from 'axios';
 
 window.Alpine = Alpine;
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 Alpine.plugin(AlpineRayPlugin);
 Alpine.start();
@@ -68,7 +67,6 @@ To configure `alpinejs-ray`, you must create an `alpineRayConfig` property on th
 loading `alpinejs-ray`:
 
 ```html
-
 <script>
     window.alpineRayConfig = {
         interceptErrors: true,
@@ -105,7 +103,6 @@ Use the `x-ray` directive within your HTML markup to easily send data to Ray. Th
 javascript expression.
 
 ```html
-
 <div x-data>
     <!-- sends 'hello world' and the value of the 'mystore.somevalue' Alpine store to Ray -->
     <div x-ray="'hello world'"></div>
@@ -113,19 +110,16 @@ javascript expression.
 </div>
 ```
 
-The `x-ray` directive values are reactive; if the value changes, the new data will be sent to and displayed in Ray
-in-place.
+The `x-ray` directive values are reactive; if the value changes, the new data will be sent to and displayed in Ray in-place.
 The changed value will be momentarily highlighted in Ray to indicate that it was updated.
 
 ## Example Components
 
 ```html
-
 <button @click="$ray('hello from alpine')">Send to Ray</button>
 ```
 
 ```html
-
 <div x-data="onClickData()">
     <div x-show="show">Hi There Ray!</div>
 
