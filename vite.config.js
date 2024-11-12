@@ -32,6 +32,7 @@ export default defineConfig({
                 },
             },
             external: [
+                'alpinejs',
                 'axios',
                 'dayjs',
                 'crypto',
@@ -66,7 +67,8 @@ export default defineConfig({
         watch: false,
         environment: 'jsdom',
         alias: {
-            '@/': new URL('./src/', import.meta.url).pathname,
+            '@': resolve('.', 'src'),
+            '~tests': resolve('.', 'tests'),
         },
         coverage: {
             all: true,

@@ -13,7 +13,7 @@ export default defineConfig({
             fileName: format => `standalone.${format}.js`,
         },
         rollupOptions: {
-            external: ['axios'],
+            external: ['alpinejs', 'axios'],
             output: { globals: { axios: 'axios' } },
             treeshake: true,
         },
