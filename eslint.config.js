@@ -34,6 +34,7 @@ const config = [
             '@typescript-eslint/no-explicit-any': 'off',
             '@typescript-eslint/no-var-requires': 'off',
             indent: ['error', 4, { SwitchCase: 1 }],
+            'max-len': ['warn', { code: 160, ignoreUrls: true }],
             'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
             'no-useless-escape': 'off',
         },

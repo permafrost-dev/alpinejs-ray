@@ -27,7 +27,7 @@ export default {
     insertPragma: false,
     jsxSingleQuote: false,
     overrides,
-    printWidth: 140,
+    printWidth: 160,
     proseWrap: 'preserve',
     quoteProps: 'as-needed',
     requirePragma: false,
