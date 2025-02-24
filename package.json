@@ -56,28 +56,28 @@
         "permafrost"
     ],
     "devDependencies": {
-        "@rollup/plugin-commonjs": "^24.0.0",
+        "@rollup/plugin-commonjs": "^26.0.1",
         "@rollup/plugin-node-resolve": "^15.0.1",
         "@rollup/plugin-replace": "^5.0.1",
-        "@rollup/plugin-typescript": "^10.0.1",
+        "@rollup/plugin-typescript": "^11.1.6",
         "@types/jest": "^29.2.4",
         "@rollup/plugin-terser": "^0.4",
         "@types/node": "^20.2.1",
-        "@typescript-eslint/eslint-plugin": "^5.14.0",
-        "@typescript-eslint/parser": "^5.14.0",
+        "@typescript-eslint/eslint-plugin": "^7.11.0",
+        "@typescript-eslint/parser": "^7.11.0",
         "concurrently": "^8.0.1",
-        "eslint": "^8.10.0",
-        "husky": "^8.0.1",
+        "eslint": "^9.4.0",
+        "husky": "^9.0.11",
         "is-ci": "^3.0.1",
         "jest": "^29.3.1",
-        "lint-staged": "^13.0.0",
-        "prettier": "^2.5.1",
-        "rollup": "^3.3.0",
+        "lint-staged": "^15.2.7",
+        "prettier": "^3.3.1",
+        "rollup": "^4.18.0",
         "ts-jest": "^29.0.3",
         "typescript": "^5.0"
     },
     "dependencies": {
-        "minimatch": "^5.0.1",
-        "node-ray": "^1.18.0"
+        "minimatch": "^9.0.4",
+        "node-ray": "^2.1.2"
     }
 }
